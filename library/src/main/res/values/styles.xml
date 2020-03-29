@@ -6,7 +6,7 @@
         <enum name="center" value="2" />
     </attr>
 
-    <declare-styleable name="SmartSpinner">
+    <declare-styleable name="NiceSpinner">
         <attr name="arrowTint" format="color" />
         <attr name="hideArrow" format="boolean" />
         <attr name="arrowDrawable" format="reference|color" />
@@ -15,6 +15,25 @@
         <attr name="textTint" format="color" />
         <attr name="popupTextAlignment" />
         <attr name="entries" format="reference" />
+    </declare-styleable>
+
+    <declare-styleable name="SmartSpinner">
+        <attr name="arrowTint" format="color" />
+        <attr name="hideArrow" format="boolean" />
+        <attr name="arrowDrawable" format="reference|color" />
+        <attr name="dropDownListPaddingBottom" format="dimension" />
+        <attr name="backgroundSelector" format="integer" />
+        <attr name="defaultText" format="reference|string" />
+        <attr name="popupTextAlignment" />
+        <attr name="selectedColor" format="color" />
+        <attr name="android:textColor"/>
+        <attr name="android:paddingLeft" />
+        <attr name="android:paddingRight" />
+        <attr name="android:paddingTop" />
+        <attr name="android:paddingBottom" />
+        <attr name="android:entries" />
+        <attr name="android:layout_width" />
+        <attr name="android:layout_height" />
     </declare-styleable>
 
 </resources>
