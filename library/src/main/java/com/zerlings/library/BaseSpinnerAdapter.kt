@@ -34,6 +34,10 @@ abstract class BaseSpinnerAdapter<T, VH: BaseViewHolder> internal constructor(
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.itemView.setOnClickListener { setOnItemClick(holder.itemView, position, dataList[position]) }
+        holder.itemView.setOnClickListener {
+            setOnItemClick(holder.itemView, position, dataList[position])
+            selectedPosition = position
+            notifyItemChanged(position)
+        }
     }
 }

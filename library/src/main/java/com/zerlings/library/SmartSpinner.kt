@@ -4,6 +4,7 @@ import android.R.attr
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.v4.content.res.ResourcesCompat
 import android.support.v7.widget.AppCompatTextView
@@ -33,8 +34,11 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
     private var selectedIndex = 0
     private var arrowDrawable: Drawable? = null
     private var isArrowHidden = false
+    @ColorInt
     private var textTint = 0
+    @ColorInt
     private var selectedTint = 0
+    private var spinnerTextSize = 0f
     private var leftPadding = 0
     private var rightPadding = 0
     private var topPadding = 0
@@ -57,11 +61,13 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         topPadding = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_android_paddingTop, defaultPadding)
         bottomPadding = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_android_paddingBottom, defaultPadding)
         setPadding(leftPadding, topPadding, rightPadding, bottomPadding)
-        gravity = Gravity.CENTER_VERTICAL or Gravity.START
+        gravity = typedArray.getInt(R.styleable.SmartSpinner_android_gravity, Gravity.CENTER_VERTICAL or Gravity.START)
         isClickable = true
         textTint = typedArray.getColor(R.styleable.SmartSpinner_android_textColor, getDefaultTextColor(context))
         selectedTint = typedArray.getColor(R.styleable.SmartSpinner_selectedColor, getDefaultSelectedColor(context))
         setTextColor(textTint)
+        spinnerTextSize = typedArray.getDimension(R.styleable.SmartSpinner_android_textSize, resources.getDimension(R.dimen.default_text_size))
+        setTextSize(TypedValue.COMPLEX_UNIT_PX, spinnerTextSize)
         isArrowHidden = typedArray.getBoolean(R.styleable.SmartSpinner_hideArrow, false)
         arrowDrawableTint = typedArray.getColor(R.styleable.SmartSpinner_arrowTint, ResourcesCompat.getColor(resources, android.R.color.black, null))
         arrowDrawableResId = typedArray.getResourceId(R.styleable.SmartSpinner_arrowDrawable, R.drawable.arrow)
@@ -69,7 +75,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         val popupView = View.inflate(context, R.layout.window_spinner, null)
         recyclerView = popupView.rcv
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = RecyclerView.Adapter
+        recyclerView.adapter = SimpleSpinnerAdapter(R.layout.item_simple_spinner, )
         popupWindow = PopupWindow(popupView, typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_android_layout_width, ViewGroup.LayoutParams.WRAP_CONTENT), ViewGroup.LayoutParams.WRAP_CONTENT )
         typedArray.recycle()
     }

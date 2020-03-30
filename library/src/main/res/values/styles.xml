@@ -27,6 +27,7 @@
         <attr name="popupTextAlignment" />
         <attr name="selectedColor" format="color" />
         <attr name="android:textColor"/>
+        <attr name="android:textSize"/>
         <attr name="android:paddingLeft" />
         <attr name="android:paddingRight" />
         <attr name="android:paddingTop" />
@@ -34,6 +35,7 @@
         <attr name="android:entries" />
         <attr name="android:layout_width" />
         <attr name="android:layout_height" />
+        <attr name="android:gravity" />
     </declare-styleable>
 
 </resources>
