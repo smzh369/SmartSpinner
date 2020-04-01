@@ -13,15 +13,13 @@ abstract class BaseSpinnerAdapter<T, VH: BaseViewHolder> internal constructor(
     protected val selectedColor: Int
     ) : RecyclerView.Adapter<VH>(){
 
-    private lateinit var onItemClickListener: (BaseSpinnerAdapter<T, VH>, View, Int, T) -> Unit
+    private lateinit var onItemClickListener: (View, Int) -> Unit
 
-    protected open fun setOnItemClick(view: View, position: Int, item: T) = onItemClickListener(this, view, position, item)
-
-    fun setOnItemClickListener(listener: (BaseSpinnerAdapter<T, VH>, View, Int, T) -> Unit) {
+    open fun setOnItemClickListener(listener: (View, Int) -> Unit) {
         onItemClickListener = listener
     }
 
-    fun setData(dataList: MutableList<T>){
+    open fun setData(dataList: MutableList<T>){
         this.dataList = dataList
         notifyDataSetChanged()
     }
@@ -35,7 +33,7 @@ abstract class BaseSpinnerAdapter<T, VH: BaseViewHolder> internal constructor(
 
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.itemView.setOnClickListener {
-            setOnItemClick(holder.itemView, position, dataList[position])
+            onItemClickListener(holder.itemView, position)
             selectedPosition = position
             notifyItemChanged(position)
         }

@@ -3,6 +3,7 @@ package com.zerlings.library
 import android.R.attr
 import android.R.attr.textColor
 import android.animation.ObjectAnimator
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -272,6 +273,7 @@ class NiceSpinner(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : A
         }
     }
 
+    @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (isEnabled && event.action == MotionEvent.ACTION_UP) {
             if (!popupWindow.isShowing && adapter.getCount() > 0) {

@@ -6,6 +6,12 @@
         <enum name="center" value="2" />
     </attr>
 
+    <attr name="textAlignment" format="enum">
+        <enum name="start" value="0" />
+        <enum name="end" value="1" />
+        <enum name="center" value="2" />
+    </attr>
+
     <declare-styleable name="NiceSpinner">
         <attr name="arrowTint" format="color" />
         <attr name="hideArrow" format="boolean" />
@@ -24,18 +30,12 @@
         <attr name="dropDownListPaddingBottom" format="dimension" />
         <attr name="backgroundSelector" format="integer" />
         <attr name="defaultText" format="reference|string" />
-        <attr name="popupTextAlignment" />
+        <attr name="textAlignment" />
+        <attr name="popupTextPaddingStart" format="dimension"/>
         <attr name="selectedColor" format="color" />
-        <attr name="android:textColor"/>
-        <attr name="android:textSize"/>
-        <attr name="android:paddingLeft" />
-        <attr name="android:paddingRight" />
-        <attr name="android:paddingTop" />
-        <attr name="android:paddingBottom" />
-        <attr name="android:entries" />
-        <attr name="android:layout_width" />
-        <attr name="android:layout_height" />
-        <attr name="android:gravity" />
+        <attr name="textColor" format="color"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="entries" format="reference"/>
     </declare-styleable>
 
 </resources>

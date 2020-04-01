@@ -1,8 +1,10 @@
 package com.zerlings.library
 
 import android.R.attr
+import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
@@ -13,10 +15,10 @@ import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
 import android.util.TypedValue
 import android.view.Gravity
+import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import android.widget.SimpleAdapter
 import kotlinx.android.synthetic.main.window_spinner.view.*
 
 class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = attr.textViewStyle) : AppCompatTextView(context, attrs, defStyleAttr) {
@@ -30,54 +32,75 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         private const val IS_ARROW_HIDDEN = "is_arrow_hidden"
         private const val ARROW_DRAWABLE_RES_ID = "arrow_drawable_res_id"
     }
-
-    private var selectedIndex = 0
+    private val popupTextPaddingStart: Int
+    private var selectedIndex = -1
     private var arrowDrawable: Drawable? = null
     private var isArrowHidden = false
     @ColorInt
-    private var textTint = 0
+    private val textTint: Int
     @ColorInt
-    private var selectedTint = 0
-    private var spinnerTextSize = 0f
-    private var leftPadding = 0
-    private var rightPadding = 0
-    private var topPadding = 0
-    private var bottomPadding = 0
+    private val selectedTint: Int
+    private val spinnerTextSize: Float
     //private var backgroundSelector = 0
-    private var arrowDrawableTint = 0
-    private var displayHeight = 0
+    private val arrowDrawableTint: Int
+    //private var displayHeight = 0
     //private var parentVerticalOffset = 0
     //private var dropDownListPaddingBottom = 0
     @DrawableRes
-    private var arrowDrawableResId = 0
-    private var popupWindow: PopupWindow
-    private var recyclerView: RecyclerView
+    private val arrowDrawableResId: Int
+    private val popupWindow: PopupWindow
+    private val recyclerView: RecyclerView
+    private val entries: Array<String>?
+    private var adapter: BaseSpinnerAdapter<*, *>? = null
+    private lateinit var onSpinnerItemSelectedListener: (View, Int) -> Unit
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SmartSpinner)
-        val defaultPadding = resources.getDimensionPixelSize(R.dimen.default_padding)
-        leftPadding = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_android_paddingLeft, defaultPadding)
-        rightPadding = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_android_paddingRight, defaultPadding)
-        topPadding = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_android_paddingTop, defaultPadding)
-        bottomPadding = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_android_paddingBottom, defaultPadding)
-        setPadding(leftPadding, topPadding, rightPadding, bottomPadding)
-        gravity = typedArray.getInt(R.styleable.SmartSpinner_android_gravity, Gravity.CENTER_VERTICAL or Gravity.START)
+        popupTextPaddingStart = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_popupTextPaddingStart, 0)
+        gravity = typedArray.getInt(R.styleable.SmartSpinner_textAlignment, Gravity.CENTER_VERTICAL or Gravity.START)
         isClickable = true
-        textTint = typedArray.getColor(R.styleable.SmartSpinner_android_textColor, getDefaultTextColor(context))
+        textTint = typedArray.getColor(R.styleable.SmartSpinner_textColor, getDefaultTextColor(context))
         selectedTint = typedArray.getColor(R.styleable.SmartSpinner_selectedColor, getDefaultSelectedColor(context))
         setTextColor(textTint)
-        spinnerTextSize = typedArray.getDimension(R.styleable.SmartSpinner_android_textSize, resources.getDimension(R.dimen.default_text_size))
+        spinnerTextSize = typedArray.getDimension(R.styleable.SmartSpinner_textSize, resources.getDimension(R.dimen.default_text_size))
         setTextSize(TypedValue.COMPLEX_UNIT_PX, spinnerTextSize)
         isArrowHidden = typedArray.getBoolean(R.styleable.SmartSpinner_hideArrow, false)
         arrowDrawableTint = typedArray.getColor(R.styleable.SmartSpinner_arrowTint, ResourcesCompat.getColor(resources, android.R.color.black, null))
         arrowDrawableResId = typedArray.getResourceId(R.styleable.SmartSpinner_arrowDrawable, R.drawable.arrow)
-        val entries = typedArray.getTextArray(R.styleable.SmartSpinner_android_entries)
+        entries = typedArray.getTextArray(R.styleable.SmartSpinner_entries)?.let { it as Array<String> }
         val popupView = View.inflate(context, R.layout.window_spinner, null)
         recyclerView = popupView.rcv
         recyclerView.layoutManager = LinearLayoutManager(context)
-        recyclerView.adapter = SimpleSpinnerAdapter(R.layout.item_simple_spinner, )
-        popupWindow = PopupWindow(popupView, typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_android_layout_width, ViewGroup.LayoutParams.WRAP_CONTENT), ViewGroup.LayoutParams.WRAP_CONTENT )
+        popupWindow = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+            isFocusable = true
+            setBackgroundDrawable(BitmapDrawable())
+            isOutsideTouchable = true
+            isTouchable = true
+        }
         typedArray.recycle()
+    }
+
+    @SuppressLint("ClickableViewAccessibility")
+    override fun onTouchEvent(event: MotionEvent): Boolean {
+        if (isEnabled && event.action == MotionEvent.ACTION_UP) {
+            if (adapter == null){
+                adapter = SimpleSpinnerAdapter(R.layout.item_simple_spinner, entries?.toMutableList() ?: ArrayList(), selectedIndex, selectedTint, width, height, popupTextPaddingStart, textTint, textSize, gravity)
+                recyclerView.adapter = adapter
+                (adapter as SimpleSpinnerAdapter).setOnItemClickListener {view, position ->
+                    onSpinnerItemSelectedListener(view, position)
+                }
+            }
+            if (!popupWindow.isShowing && adapter.itemCount > 0) {
+                popupWindow.showAsDropDown(this)
+            } else {
+                popupWindow.dismiss()
+            }
+        }
+        return super.onTouchEvent(event)
+    }
+
+    fun setOnSpinnerItemSelectedListener(listener: (View, Int) -> Unit){
+        onSpinnerItemSelectedListener = listener
     }
 
     private fun getDefaultTextColor(context: Context): Int {
