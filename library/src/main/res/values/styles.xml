@@ -8,7 +8,6 @@
 
     <attr name="textAlignment" format="enum">
         <enum name="start" value="0" />
-        <enum name="end" value="1" />
         <enum name="center" value="2" />
     </attr>
 
@@ -31,7 +30,7 @@
         <attr name="backgroundSelector" format="integer" />
         <attr name="defaultText" format="reference|string" />
         <attr name="textAlignment" />
-        <attr name="popupTextPaddingStart" format="dimension"/>
+        <attr name="popupPaddingStart" format="dimension"/>
         <attr name="selectedColor" format="color" />
         <attr name="textColor" format="color"/>
         <attr name="textSize" format="dimension"/>

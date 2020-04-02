@@ -32,7 +32,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         private const val IS_ARROW_HIDDEN = "is_arrow_hidden"
         private const val ARROW_DRAWABLE_RES_ID = "arrow_drawable_res_id"
     }
-    private val popupTextPaddingStart: Int
+    private val popupPaddingStart: Int
     private var selectedIndex = -1
     private var arrowDrawable: Drawable? = null
     private var isArrowHidden = false
@@ -56,7 +56,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SmartSpinner)
-        popupTextPaddingStart = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_popupTextPaddingStart, 0)
+        popupPaddingStart = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_popupPaddingStart, 0)
         gravity = typedArray.getInt(R.styleable.SmartSpinner_textAlignment, Gravity.CENTER_VERTICAL or Gravity.START)
         isClickable = true
         textTint = typedArray.getColor(R.styleable.SmartSpinner_textColor, getDefaultTextColor(context))
@@ -84,7 +84,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (isEnabled && event.action == MotionEvent.ACTION_UP) {
             if (adapter == null){
-                adapter = SimpleSpinnerAdapter(R.layout.item_simple_spinner, entries?.toMutableList() ?: ArrayList(), selectedIndex, selectedTint, width, height, popupTextPaddingStart, textTint, textSize, gravity)
+                adapter = SimpleSpinnerAdapter(R.layout.item_simple_spinner, entries?.toMutableList() ?: ArrayList(), selectedIndex, selectedTint, width, height, popupPaddingStart, textTint, textSize, gravity)
                 recyclerView.adapter = adapter
                 (adapter as SimpleSpinnerAdapter).setOnItemClickListener {view, position ->
                     onSpinnerItemSelectedListener(view, position)

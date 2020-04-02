@@ -14,7 +14,7 @@ class SimpleSpinnerAdapter(
     @ColorInt selectedColor: Int,
     private val itemWidth: Int,
     private val itemHeight: Int,
-    private val leftPadding: Int,
+    private val startPadding: Int,
     @ColorInt private val textColor: Int,
     private val textSize: Float,
     private val gravity: Int
@@ -22,11 +22,12 @@ class SimpleSpinnerAdapter(
 
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
-        holder.itemView.apply { val params = layoutParams
+        holder.itemView.apply {
+            val params = layoutParams
             params.width = itemWidth
             params.height = itemHeight
             layoutParams = params
-            ll_simple.setPadding(leftPadding,0,0,0)
+            ll_simple.setPaddingRelative(startPadding,0,0,0)
             ll_simple.gravity = gravity
             tv_simple.setTextColor(textColor)
             tv_simple.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
