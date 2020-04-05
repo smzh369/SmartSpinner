@@ -3,6 +3,7 @@ package com.zerlings.library
 import android.view.View
 
 
+/*
 interface OnSpinnerItemSelectedListener {
     fun onItemSelected(
         parent: NiceSpinner?,
@@ -10,4 +11,4 @@ interface OnSpinnerItemSelectedListener {
         position: Int,
         id: Long
     )
-}
+}*/

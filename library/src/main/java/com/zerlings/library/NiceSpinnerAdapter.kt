@@ -18,6 +18,7 @@ import android.content.Context
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+/*
 class NiceSpinnerAdapter<T> internal constructor(
     context: Context?,
     private val items: List<T>,
@@ -47,4 +48,4 @@ class NiceSpinnerAdapter<T> internal constructor(
         return items[position]
     }
 
-}
+}*/

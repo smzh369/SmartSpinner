@@ -13,6 +13,7 @@ import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
+import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.MotionEvent
@@ -33,6 +34,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         private const val ARROW_DRAWABLE_RES_ID = "arrow_drawable_res_id"
     }
     private val popupPaddingStart: Int
+    private val popupPaddingEnd: Int
     private var selectedIndex = -1
     private var arrowDrawable: Drawable? = null
     private var isArrowHidden = false
@@ -50,14 +52,15 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val arrowDrawableResId: Int
     private val popupWindow: PopupWindow
     private val recyclerView: RecyclerView
-    private val entries: Array<String>?
+    private val entries: Array<CharSequence>?
     private var adapter: BaseSpinnerAdapter<*, *>? = null
     private lateinit var onSpinnerItemSelectedListener: (View, Int) -> Unit
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SmartSpinner)
         popupPaddingStart = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_popupPaddingStart, 0)
-        gravity = typedArray.getInt(R.styleable.SmartSpinner_textAlignment, Gravity.CENTER_VERTICAL or Gravity.START)
+        popupPaddingEnd = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_popupPaddingEnd, 0)
+        gravity = typedArray.getInt(R.styleable.SmartSpinner_textAlignment, Gravity.START) or Gravity.CENTER_VERTICAL
         isClickable = true
         textTint = typedArray.getColor(R.styleable.SmartSpinner_textColor, getDefaultTextColor(context))
         selectedTint = typedArray.getColor(R.styleable.SmartSpinner_selectedColor, getDefaultSelectedColor(context))
@@ -67,13 +70,14 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         isArrowHidden = typedArray.getBoolean(R.styleable.SmartSpinner_hideArrow, false)
         arrowDrawableTint = typedArray.getColor(R.styleable.SmartSpinner_arrowTint, ResourcesCompat.getColor(resources, android.R.color.black, null))
         arrowDrawableResId = typedArray.getResourceId(R.styleable.SmartSpinner_arrowDrawable, R.drawable.arrow)
-        entries = typedArray.getTextArray(R.styleable.SmartSpinner_entries)?.let { it as Array<String> }
+        entries = typedArray.getTextArray(R.styleable.SmartSpinner_entries)
+        text = entries?.get(0)
         val popupView = View.inflate(context, R.layout.window_spinner, null)
         recyclerView = popupView.rcv
         recyclerView.layoutManager = LinearLayoutManager(context)
         popupWindow = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
             isFocusable = true
-            setBackgroundDrawable(BitmapDrawable())
+            //setBackgroundDrawable(BitmapDrawable())
             isOutsideTouchable = true
             isTouchable = true
         }
@@ -84,13 +88,14 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (isEnabled && event.action == MotionEvent.ACTION_UP) {
             if (adapter == null){
-                adapter = SimpleSpinnerAdapter(R.layout.item_simple_spinner, entries?.toMutableList() ?: ArrayList(), selectedIndex, selectedTint, width, height, popupPaddingStart, textTint, textSize, gravity)
+                popupWindow.width = width
+                adapter = SimpleSpinnerAdapter(R.layout.item_simple_spinner, entries?.toMutableList() ?: ArrayList(), selectedIndex, selectedTint, height, popupPaddingStart, popupPaddingEnd, textTint, textSize, gravity)
                 recyclerView.adapter = adapter
-                (adapter as SimpleSpinnerAdapter).setOnItemClickListener {view, position ->
+                (adapter as BaseSpinnerAdapter).setOnItemClickListener {view, position ->
                     onSpinnerItemSelectedListener(view, position)
                 }
             }
-            if (!popupWindow.isShowing && adapter.itemCount > 0) {
+            if (!popupWindow.isShowing && (adapter as BaseSpinnerAdapter).itemCount > 0) {
                 popupWindow.showAsDropDown(this)
             } else {
                 popupWindow.dismiss()

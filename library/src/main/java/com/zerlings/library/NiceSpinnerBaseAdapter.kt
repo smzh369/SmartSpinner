@@ -25,6 +25,7 @@ import android.widget.TextView
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
+/*
 abstract class NiceSpinnerBaseAdapter<T> internal constructor(
     context: Context?,
     textColor: Int,
@@ -85,4 +86,4 @@ abstract class NiceSpinnerBaseAdapter<T> internal constructor(
         this.textColor = textColor
         this.horizontalAlignment = horizontalAlignment
     }
-}
+}*/
