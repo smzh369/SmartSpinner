@@ -1,5 +1,6 @@
 package com.zerlings.library
 
+import android.support.annotation.ColorInt
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -8,10 +9,16 @@ import android.view.ViewGroup
 
 abstract class BaseSpinnerAdapter<T, VH: BaseViewHolder> internal constructor(
     @LayoutRes private val layoutResId: Int,
-    protected var dataList: MutableList<T>,
-    protected var selectedPosition: Int,
-    protected val selectedColor: Int
+    protected var dataList: MutableList<T>
     ) : RecyclerView.Adapter<VH>(){
+
+    protected var selectedPosition: Int = -1
+
+    @ColorInt
+    protected var selectedColor: Int = 0
+
+    @ColorInt
+    protected var selectedBackground: Int = 0
 
     private lateinit var onItemClickListener: (View, Int) -> Unit
 
@@ -19,10 +26,11 @@ abstract class BaseSpinnerAdapter<T, VH: BaseViewHolder> internal constructor(
         onItemClickListener = listener
     }
 
-    open fun setData(dataList: MutableList<T>){
+    internal fun setData(dataList: MutableList<T>){
         this.dataList = dataList
-        notifyDataSetChanged()
     }
+
+    internal fun getData(): MutableList<T> = dataList
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -35,7 +43,19 @@ abstract class BaseSpinnerAdapter<T, VH: BaseViewHolder> internal constructor(
         holder.itemView.setOnClickListener {
             onItemClickListener(holder.itemView, position)
             selectedPosition = position
-            notifyItemChanged(position)
+            notifyDataSetChanged()
         }
+    }
+
+    internal fun setSelectedPosition(position: Int){
+        selectedPosition = position
+    }
+
+    internal fun setSelectedColor(@ColorInt color: Int){
+        selectedColor = color
+    }
+
+    internal fun setSelectedBackground(@ColorInt backgroundColor: Int){
+        selectedBackground = backgroundColor
     }
 }

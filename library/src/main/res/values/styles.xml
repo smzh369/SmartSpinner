@@ -30,13 +30,21 @@
         <attr name="backgroundSelector" format="integer" />
         <attr name="defaultText" format="reference|string" />
         <attr name="textAlignment" />
-        <attr name="android:gravity" />
-        <attr name="popupPaddingStart" format="dimension"/>
-        <attr name="popupPaddingEnd" format="dimension"/>
+        <attr name="menuPaddingStart" format="dimension"/>
+        <attr name="menuPaddingEnd" format="dimension"/>
+        <attr name="menuWidth" format="dimension">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+            <enum name="fit_head" value="-3" />
+        </attr>
         <attr name="selectedColor" format="color" />
         <attr name="textColor" format="color"/>
         <attr name="textSize" format="dimension"/>
+        <attr name="presetText" format="string|reference"/>
         <attr name="entries" format="reference"/>
+        <attr name="backgroundColor" format="color"/>
+        <attr name="menuBackground" format="color"/>
+        <attr name="selectedBackground" format="color"/>
     </declare-styleable>
 
 </resources>
