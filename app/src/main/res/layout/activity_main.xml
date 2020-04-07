@@ -14,11 +14,16 @@
         app:menuPaddingEnd="5dp"
         app:menuPaddingStart="5dp"
         app:textAlignment="center"
-        app:textColor="#000000"
-        app:selectedColor="@color/colorPrimary"
         app:textSize="16sp"
         app:entries="@array/languages"
-        app:backgroundColor="@color/colorAccent"
-        app:presetText="language"/>
+        app:colorChange="true"
+        app:presetText="language"
+        app:menuWidth="fit_horizon"/>
+
+    <Button
+        android:id="@+id/reset"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="reset"/>
 
 </LinearLayout>
