@@ -4,7 +4,6 @@ import android.R.attr
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
-import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
@@ -15,177 +14,173 @@ import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
 import android.util.AttributeSet
-import android.util.Log
 import android.util.TypedValue
 import android.view.Gravity
 import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
-import android.widget.BaseAdapter
 import android.widget.PopupWindow
-import kotlinx.android.synthetic.main.window_spinner.view.*
+import kotlinx.android.synthetic.main.spinner_menu.view.*
 
 class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = attr.textViewStyle) : AppCompatTextView(context, attrs, defStyleAttr) {
 
-    companion object {
-        private const val MAX_LEVEL = 10000
-        private const val VERTICAL_OFFSET = 1
-        private const val INSTANCE_STATE = "instance_state"
-        private const val SELECTED_INDEX = "selected_index"
-        private const val IS_POPUP_SHOWING = "is_popup_showing"
-        private const val IS_ARROW_HIDDEN = "is_arrow_hidden"
-        private const val ARROW_DRAWABLE_RES_ID = "arrow_drawable_res_id"
-    }
     private val menuPaddingStart: Int
     private val menuPaddingEnd: Int
     private val menuWidth: Int
-    private var selectedIndex = -1
-    private var arrowDrawable: Drawable? = null
-    private var isArrowHidden = false
+    private val menuOffsetX: Int
+    private val menuOffsetY: Int
+    private val presetIndex: Int
+    private val presetText: String?
+    private val spinnerTextSize: Float
+    private val arrowDrawable: Drawable
+    private val isArrowHidden: Boolean
+    private val showSelectedColor: Boolean
     @ColorInt
     private val textTint: Int
     @ColorInt
     private val selectedTint: Int
-    @ColorInt
+    @DrawableRes
     private val headBackground: Int
-    @ColorInt
+    @DrawableRes
     private val menuBackground: Int
-    @ColorInt
+    @DrawableRes
     private val selectedBackground: Int
-    private val spinnerTextSize: Float
-    private val presetText: String?
-    //private var backgroundSelector = 0
+    @ColorInt
     private val arrowTint: Int
-    //private var displayHeight = 0
-    //private var parentVerticalOffset = 0
-    //private var dropDownListPaddingBottom = 0
     @DrawableRes
     private val arrowResId: Int
-    private val popupWindow: PopupWindow
+    private val dropDownMenu: PopupWindow
     private val recyclerView: RecyclerView
     private val entries: Array<CharSequence>?
-    private var adapter: BaseSpinnerAdapter<*, *>? = null
-    private var onSpinnerItemSelectedListener: ((View, Int) -> Unit)? = null
+    private var selectedIndex = -1
+    private var adapter: SimpleSpinnerAdapter<CharSequence>? = null
+    private var onItemSelectedListener: ((View, Int) -> Unit)? = null
     private var onSpinnerResetListener: (() -> Unit)? = null
+    private var initialized = false
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SmartSpinner)
+        //setMenuPaddingAndLocation
         menuPaddingStart = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_menuPaddingStart, 0)
         menuPaddingEnd = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_menuPaddingEnd, 0)
-        menuWidth = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_menuWidth, -3)
-        gravity = typedArray.getInt(R.styleable.SmartSpinner_textAlignment, Gravity.START) or Gravity.CENTER_VERTICAL
-        isClickable = true
-        textTint = typedArray.getColor(R.styleable.SmartSpinner_textColor, getDefaultTextColor(context))
-        selectedTint = typedArray.getColor(R.styleable.SmartSpinner_selectedColor, getDefaultSelectedColor(context))
-        setTextColor(textTint)
-        headBackground = typedArray.getColor(R.styleable.SmartSpinner_backgroundColor, Color.WHITE)
-        setBackgroundColor(headBackground)
-        menuBackground = typedArray.getColor(R.styleable.SmartSpinner_menuBackground, headBackground)
-        selectedBackground = typedArray.getColor(R.styleable.SmartSpinner_selectedBackground, Color.GRAY)
+        menuWidth = typedArray.getLayoutDimension(R.styleable.SmartSpinner_menuWidth, -3)
+        menuOffsetX = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_menuOffsetX, 0)
+        menuOffsetY = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_menuOffsetY, 0)
+        //setTextStyle
         spinnerTextSize = typedArray.getDimension(R.styleable.SmartSpinner_textSize, resources.getDimension(R.dimen.default_text_size))
         setTextSize(TypedValue.COMPLEX_UNIT_PX, spinnerTextSize)
+        textTint = typedArray.getColor(R.styleable.SmartSpinner_textColor, Color.BLACK)
+        selectedTint = typedArray.getColor(R.styleable.SmartSpinner_selectedColor, Color.CYAN)
+        setTextColor(textTint)
+        gravity = typedArray.getInt(R.styleable.SmartSpinner_textAlignment, Gravity.START) or Gravity.CENTER_VERTICAL
+        //setBackground
+        headBackground = typedArray.getResourceId(R.styleable.SmartSpinner_spinnerBackground, R.color.light_gray)
+        setBackgroundResource(headBackground)
+        menuBackground = typedArray.getResourceId(R.styleable.SmartSpinner_menuBackground, headBackground)
+        selectedBackground = typedArray.getResourceId(R.styleable.SmartSpinner_selectedBackground, menuBackground)
+        //setPreset
         presetText = typedArray.getString(R.styleable.SmartSpinner_presetText)
+        presetIndex = if (presetText != null) -1 else typedArray.getInt(R.styleable.SmartSpinner_presetIndex, 0)
+        entries = typedArray.getTextArray(R.styleable.SmartSpinner_entries)
+        text = presetText ?: entries?.get(0)
+        showSelectedColor = typedArray.getBoolean(R.styleable.SmartSpinner_showSelectedColor, false)
+        //setArrow
         isArrowHidden = typedArray.getBoolean(R.styleable.SmartSpinner_hideArrow, false)
         arrowTint = typedArray.getColor(R.styleable.SmartSpinner_arrowTint, ResourcesCompat.getColor(resources, android.R.color.black, null))
         arrowResId = typedArray.getResourceId(R.styleable.SmartSpinner_arrowDrawable, R.drawable.arrow)
-        arrowDrawable = ContextCompat.getDrawable(getContext(), arrowResId)
-        DrawableCompat.setTint(arrowDrawable!!, arrowTint)
-        setCompoundDrawablesWithIntrinsicBounds(null, null, if (!isArrowHidden && arrowDrawable != null) arrowDrawable else null, null)
-        entries = typedArray.getTextArray(R.styleable.SmartSpinner_entries)
-        text = presetText ?: entries?.get(0)
-        val popupView = View.inflate(context, R.layout.window_spinner, null)
+        arrowDrawable = ContextCompat.getDrawable(getContext(), arrowResId)!!
+        DrawableCompat.setTint(arrowDrawable, arrowTint)
+        setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, if (!isArrowHidden) arrowDrawable else null, null)
+        compoundDrawablePadding = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_arrowPadding, 100)
+        //setPopupMenu
+        val popupView = View.inflate(context, R.layout.spinner_menu, null)
         recyclerView = popupView.rcv
         recyclerView.layoutManager = LinearLayoutManager(context)
-        popupWindow = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
+        setAdapter(SimpleSpinnerAdapter(R.layout.spinner_simple_item, entries?.toMutableList() ?: ArrayList(), menuPaddingStart, menuPaddingEnd, menuBackground, textTint, textSize, gravity))
+        dropDownMenu = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
             isFocusable = true
             isOutsideTouchable = true
             isTouchable = true
         }
+
+        isClickable = true
         typedArray.recycle()
     }
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
         if (isEnabled && event.action == MotionEvent.ACTION_UP) {
-            if (adapter == null){
-                setAdapter(SimpleSpinnerAdapter(R.layout.item_simple_spinner, entries?.toMutableList() ?: ArrayList(), height, menuPaddingStart, menuPaddingEnd, menuBackground, textTint, textSize, gravity))
+            if (!initialized){
+                resizeDropDownMenu()
+                initialized = true
             }
-            if (!popupWindow.isShowing && (adapter as BaseSpinnerAdapter).itemCount > 0) {
-                popupWindow.showAsDropDown(this)
+            if (!dropDownMenu.isShowing && adapter!!.itemCount > 0) {
+                dropDownMenu.showAsDropDown(this, menuOffsetX, menuOffsetY)
             } else {
-                popupWindow.dismiss()
+                dropDownMenu.dismiss()
             }
         }
         return super.onTouchEvent(event)
     }
 
-    fun setAdapter(baseAdapter: BaseSpinnerAdapter<*,*>){
-        popupWindow.width = if (menuWidth == -3) width else menuWidth
+    private fun setAdapter(baseAdapter: SimpleSpinnerAdapter<CharSequence>){
         adapter = baseAdapter
         recyclerView.adapter = adapter
-        (adapter as BaseSpinnerAdapter).apply {
+        adapter!!.apply {
             setSelectedPosition(selectedIndex)
             setSelectedColor(selectedTint)
             setSelectedBackground(selectedBackground)
-            setOnItemClickListener {view, position ->
-                selectedIndex = position
-                if (adapter is SimpleSpinnerAdapter){
-                    text = (adapter as SimpleSpinnerAdapter).getData()[position]
-                }
-                onSpinnerItemSelectedListener?.invoke(view, position)
-                popupWindow.dismiss()
+            onItemClickListener = {view, position ->
+                setSelectedIndex(view, position)
+                notifyDataSetChanged()
+                dropDownMenu.dismiss()
             }
         }
-        resetSpinner()
+        reset()
     }
 
-    fun resetSpinner(resetText: String? = null){
-        if (presetText != null){
-            selectedIndex = -1
-            text = presetText
-        }else{
-            selectedIndex = 0
-            text = (adapter as? SimpleSpinnerAdapter)?.getData()?.get(0) ?: resetText
+    fun reset(){
+        setSelectedIndex(this, presetIndex, false)
+        onSpinnerResetListener?.invoke() ?: if (presetIndex != -1) { onItemSelectedListener?.invoke(this, presetIndex) }
+    }
+
+    fun setSelectedIndex(view: View, position: Int, selected: Boolean = true){
+        selectedIndex = position
+        adapter?.setSelectedPosition(position)
+        text = if (position == -1) presetText else adapter?.getData()?.get(position)
+        setTextColor(if (position != presetIndex && showSelectedColor) selectedTint else textTint)
+        if (selected && position != -1){
+            onItemSelectedListener?.invoke(view, position)
         }
-        onSpinnerResetListener?.invoke()
     }
 
-    fun setIndex(index: Int, isSelected: Boolean = false, indexText: String? = null){
-        selectedIndex = index
-        text = (adapter as? SimpleSpinnerAdapter)?.getData()?.get(0) ?: indexText
+    fun setDataSource(dataSource: MutableList<CharSequence>){
+        adapter?.setData(dataSource)
+        setSelectedIndex(this, presetIndex, false)
     }
 
-    private fun getDefaultTextColor(context: Context): Int {
-        val typedValue = TypedValue()
-        context.theme.resolveAttribute(attr.textColorPrimary, typedValue, true)
-        val typedArray = context.obtainStyledAttributes(typedValue.data, intArrayOf(attr.textColorPrimary))
-        val defaultTextColor = typedArray.getColor(0, Color.BLACK)
-        typedArray.recycle()
-        return defaultTextColor
-    }
-
-    private fun getDefaultSelectedColor(context: Context): Int {
-        val typedValue = TypedValue()
-        context.theme.resolveAttribute(attr.textColorPrimary, typedValue, true)
-        val typedArray = context.obtainStyledAttributes(typedValue.data, intArrayOf(attr.textColorSecondary))
-        val defaultSelectedColor = typedArray.getColor(0, Color.BLUE)
-        typedArray.recycle()
-        return defaultSelectedColor
-    }
-
-    private fun initArrow(drawableTint: Int): Drawable? {
-        var drawable = ContextCompat.getDrawable(context, arrowResId)
-        if (drawable != null) { // Gets a copy of this drawable as this is going to be mutated by the animator
-            drawable = DrawableCompat.wrap(drawable).mutate()
-            if (drawableTint != Int.MAX_VALUE && drawableTint != 0) {
-                DrawableCompat.setTint(drawable, drawableTint)
-            }
+    private fun resizeDropDownMenu(){
+        dropDownMenu.width = if (menuWidth == -3) width else menuWidth
+        (adapter as SimpleSpinnerAdapter).apply {
+            setItemHeight(height)
+            notifyDataSetChanged()
         }
-        return drawable
     }
 
-    fun setOnSpinnerItemSelectedListener(listener: (View, Int) -> Unit){
-        onSpinnerItemSelectedListener = listener
+    fun getItemAtPosition(position: Int): CharSequence? {
+        return adapter?.getData()?.get(position)
+    }
+
+    fun getSelectedItem(): CharSequence? {
+        return if (text == presetText) null else text
+    }
+
+    fun getSelectedIndex(): Int {
+        return selectedIndex
+    }
+
+    fun setOnItemSelectedListener(listener: (View, Int) -> Unit){
+        onItemSelectedListener = listener
     }
 
     fun setOnSpinnerResetListener(listener: () -> Unit){

@@ -1,50 +1,35 @@
 <resources>
 
-    <!--<attr name="popupTextAlignment" format="enum">
-        <enum name="start" value="0" />
-        <enum name="end" value="1" />
-        <enum name="center" value="2" />
-    </attr>-->
-
     <attr name="textAlignment" format="flags">
         <flag name="start" value="0x00800003" />
         <flag name="center" value="0x11" />
     </attr>
 
-    <!--<declare-styleable name="NiceSpinner">
-        <attr name="arrowTint" format="color" />
-        <attr name="hideArrow" format="boolean" />
-        <attr name="arrowDrawable" format="reference|color" />
-        <attr name="dropDownListPaddingBottom" format="dimension" />
-        <attr name="backgroundSelector" format="integer" />
-        <attr name="textTint" format="color" />
-        <attr name="popupTextAlignment" />
-        <attr name="entries" format="reference" />
-    </declare-styleable>-->
-
     <declare-styleable name="SmartSpinner">
         <attr name="arrowTint" format="color" />
         <attr name="hideArrow" format="boolean" />
         <attr name="arrowDrawable" format="reference|color" />
-        <attr name="dropDownListPaddingBottom" format="dimension" />
-        <attr name="backgroundSelector" format="integer" />
-        <attr name="defaultText" format="reference|string" />
+        <attr name="arrowPadding" format="dimension" />
         <attr name="textAlignment" />
         <attr name="menuPaddingStart" format="dimension"/>
         <attr name="menuPaddingEnd" format="dimension"/>
-        <attr name="menuWidth" format="dimension">
+        <attr name="menuWidth" format="dimension|enum">
             <enum name="match_parent" value="-1" />
             <enum name="wrap_content" value="-2" />
-            <enum name="fit_head" value="-3" />
+            <enum name="fit_horizon" value="-3" />
         </attr>
+        <attr name="menuOffsetX" format="dimension"/>
+        <attr name="menuOffsetY" format="dimension"/>
         <attr name="selectedColor" format="color" />
         <attr name="textColor" format="color"/>
         <attr name="textSize" format="dimension"/>
         <attr name="presetText" format="string|reference"/>
         <attr name="entries" format="reference"/>
-        <attr name="backgroundColor" format="color"/>
-        <attr name="menuBackground" format="color"/>
-        <attr name="selectedBackground" format="color"/>
+        <attr name="spinnerBackground" format="color|reference"/>
+        <attr name="menuBackground" format="color|reference"/>
+        <attr name="selectedBackground" format="color|reference"/>
+        <attr name="presetIndex" format="integer"/>
+        <attr name="showSelectedColor" format="boolean"/>
     </declare-styleable>
 
 </resources>

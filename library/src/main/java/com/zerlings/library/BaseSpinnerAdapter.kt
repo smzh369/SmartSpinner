@@ -1,6 +1,7 @@
 package com.zerlings.library
 
 import android.support.annotation.ColorInt
+import android.support.annotation.DrawableRes
 import android.support.annotation.LayoutRes
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -16,15 +17,14 @@ abstract class BaseSpinnerAdapter<T, VH: BaseViewHolder> internal constructor(
 
     @ColorInt
     protected var selectedColor: Int = 0
-
-    @ColorInt
+    @DrawableRes
     protected var selectedBackground: Int = 0
 
-    private lateinit var onItemClickListener: (View, Int) -> Unit
+    internal lateinit var onItemClickListener: (View, Int) -> Unit
 
-    open fun setOnItemClickListener(listener: (View, Int) -> Unit) {
+    /*internal fun setOnItemClickListener(listener: (View, Int) -> Unit) {
         onItemClickListener = listener
-    }
+    }*/
 
     internal fun setData(dataList: MutableList<T>){
         this.dataList = dataList
@@ -42,8 +42,6 @@ abstract class BaseSpinnerAdapter<T, VH: BaseViewHolder> internal constructor(
     override fun onBindViewHolder(holder: VH, position: Int) {
         holder.itemView.setOnClickListener {
             onItemClickListener(holder.itemView, position)
-            selectedPosition = position
-            notifyDataSetChanged()
         }
     }
 
@@ -55,7 +53,7 @@ abstract class BaseSpinnerAdapter<T, VH: BaseViewHolder> internal constructor(
         selectedColor = color
     }
 
-    internal fun setSelectedBackground(@ColorInt backgroundColor: Int){
+    internal fun setSelectedBackground(@DrawableRes backgroundColor: Int){
         selectedBackground = backgroundColor
     }
 }

@@ -10,15 +10,21 @@
         android:id="@+id/spinner"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
-        android:padding="5dp"
+        android:paddingStart="10dp"
         app:menuPaddingEnd="5dp"
-        app:menuPaddingStart="5dp"
-        app:textAlignment="center"
-        app:textColor="#000000"
-        app:selectedColor="@color/colorPrimary"
+        app:menuPaddingStart="10dp"
+        app:textAlignment="start"
         app:textSize="16sp"
         app:entries="@array/languages"
-        app:backgroundColor="@color/colorAccent"
-        app:presetText="language"/>
+        app:showSelectedColor="true"
+        app:presetIndex="2"
+        app:menuWidth="fit_horizon"
+        app:arrowPadding="0dp"/>
+
+    <Button
+        android:id="@+id/reset"
+        android:layout_width="100dp"
+        android:layout_height="40dp"
+        android:text="reset"/>
 
 </LinearLayout>
