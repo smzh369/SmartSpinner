@@ -8,7 +8,9 @@ import android.graphics.drawable.BitmapDrawable
 import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
+import android.support.v4.content.ContextCompat
 import android.support.v4.content.res.ResourcesCompat
+import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -53,12 +55,12 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val spinnerTextSize: Float
     private val presetText: String?
     //private var backgroundSelector = 0
-    private val arrowDrawableTint: Int
+    private val arrowTint: Int
     //private var displayHeight = 0
     //private var parentVerticalOffset = 0
     //private var dropDownListPaddingBottom = 0
     @DrawableRes
-    private val arrowDrawableResId: Int
+    private val arrowResId: Int
     private val popupWindow: PopupWindow
     private val recyclerView: RecyclerView
     private val entries: Array<CharSequence>?
@@ -84,8 +86,11 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         setTextSize(TypedValue.COMPLEX_UNIT_PX, spinnerTextSize)
         presetText = typedArray.getString(R.styleable.SmartSpinner_presetText)
         isArrowHidden = typedArray.getBoolean(R.styleable.SmartSpinner_hideArrow, false)
-        arrowDrawableTint = typedArray.getColor(R.styleable.SmartSpinner_arrowTint, ResourcesCompat.getColor(resources, android.R.color.black, null))
-        arrowDrawableResId = typedArray.getResourceId(R.styleable.SmartSpinner_arrowDrawable, R.drawable.arrow)
+        arrowTint = typedArray.getColor(R.styleable.SmartSpinner_arrowTint, ResourcesCompat.getColor(resources, android.R.color.black, null))
+        arrowResId = typedArray.getResourceId(R.styleable.SmartSpinner_arrowDrawable, R.drawable.arrow)
+        arrowDrawable = ContextCompat.getDrawable(getContext(), arrowResId)
+        DrawableCompat.setTint(arrowDrawable!!, arrowTint)
+        setCompoundDrawablesWithIntrinsicBounds(null, null, if (!isArrowHidden && arrowDrawable != null) arrowDrawable else null, null)
         entries = typedArray.getTextArray(R.styleable.SmartSpinner_entries)
         text = presetText ?: entries?.get(0)
         val popupView = View.inflate(context, R.layout.window_spinner, null)
@@ -127,7 +132,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
                 if (adapter is SimpleSpinnerAdapter){
                     text = (adapter as SimpleSpinnerAdapter).getData()[position]
                 }
-                onSpinnerItemSelectedListener?.let { it(view, position) }
+                onSpinnerItemSelectedListener?.invoke(view, position)
                 popupWindow.dismiss()
             }
         }
@@ -142,7 +147,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
             selectedIndex = 0
             text = (adapter as? SimpleSpinnerAdapter)?.getData()?.get(0) ?: resetText
         }
-        onSpinnerResetListener?.let { it() }
+        onSpinnerResetListener?.invoke()
     }
 
     fun setIndex(index: Int, isSelected: Boolean = false, indexText: String? = null){
@@ -166,6 +171,17 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         val defaultSelectedColor = typedArray.getColor(0, Color.BLUE)
         typedArray.recycle()
         return defaultSelectedColor
+    }
+
+    private fun initArrow(drawableTint: Int): Drawable? {
+        var drawable = ContextCompat.getDrawable(context, arrowResId)
+        if (drawable != null) { // Gets a copy of this drawable as this is going to be mutated by the animator
+            drawable = DrawableCompat.wrap(drawable).mutate()
+            if (drawableTint != Int.MAX_VALUE && drawableTint != 0) {
+                DrawableCompat.setTint(drawable, drawableTint)
+            }
+        }
+        return drawable
     }
 
     fun setOnSpinnerItemSelectedListener(listener: (View, Int) -> Unit){

@@ -28,8 +28,7 @@ import android.widget.ListPopupWindow
 import android.widget.ListView
 
 
-/*
-class NiceSpinner(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : AppCompatTextView(context, attrs, defStyleAttr) {
+/*class NiceSpinner(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : AppCompatTextView(context, attrs, defStyleAttr) {
 
     constructor(context: Context, attrs: AttributeSet?) : this(context, attrs, android.R.attr.textViewStyle)
 
@@ -213,12 +212,11 @@ class NiceSpinner(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : A
         text = if (selectedTextFormatter != null) (selectedTextFormatter.format(item)) else item.toString()
     }
 
-    */
-/**
+*
      * Set the default spinner item using its index
      *
      * @param position the item's position
-     *//*
+
 
     fun setSelectedIndex(position: Int) {
         if (adapter != null) {
@@ -379,13 +377,12 @@ class NiceSpinner(context: Context, attrs: AttributeSet?, defStyleAttr: Int) : A
         setSelectedIndex(position)
     }
 
-    */
-/**
+*
      * only applicable when popup is shown .
      * @param view
      * @param position
      * @param id
-     *//*
+
 
     fun performItemClick(view: View?, position: Int, id: Int) {
         showDropDown()
