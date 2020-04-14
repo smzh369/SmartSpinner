@@ -53,7 +53,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val recyclerView: RecyclerView
     private val entries: Array<CharSequence>?
     private var selectedIndex = -1
-    private var adapter: SimpleSpinnerAdapter<CharSequence>? = null
+    private var adapter: SmartSpinnerAdapter<CharSequence>? = null
     private var onItemSelectedListener: ((View, Int) -> Unit)? = null
     private var onSpinnerResetListener: (() -> Unit)? = null
     private var initialized = false
@@ -96,7 +96,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         val popupView = View.inflate(context, R.layout.spinner_menu, null)
         recyclerView = popupView.rcv
         recyclerView.layoutManager = LinearLayoutManager(context)
-        setAdapter(SimpleSpinnerAdapter(R.layout.spinner_simple_item, entries?.toMutableList() ?: ArrayList(), menuPaddingStart, menuPaddingEnd, menuBackground, textTint, textSize, gravity))
+        setAdapter(SmartSpinnerAdapter(R.layout.spinner_simple_item, entries?.toMutableList() ?: ArrayList(), menuPaddingStart, menuPaddingEnd, menuBackground, textTint, textSize, gravity))
         dropDownMenu = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
             isFocusable = true
             isOutsideTouchable = true
@@ -123,7 +123,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         return super.onTouchEvent(event)
     }
 
-    private fun setAdapter(baseAdapter: SimpleSpinnerAdapter<CharSequence>){
+    private fun setAdapter(baseAdapter: SmartSpinnerAdapter<CharSequence>){
         adapter = baseAdapter
         recyclerView.adapter = adapter
         adapter!!.apply {
@@ -161,7 +161,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun resizeDropDownMenu(){
         dropDownMenu.width = if (menuWidth == -3) width else menuWidth
-        (adapter as SimpleSpinnerAdapter).apply {
+        (adapter as SmartSpinnerAdapter).apply {
             setItemHeight(height)
             notifyDataSetChanged()
         }

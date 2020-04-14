@@ -20,17 +20,19 @@ abstract class BaseSpinnerAdapter<T, VH: BaseViewHolder> internal constructor(
     @DrawableRes
     protected var selectedBackground: Int = 0
 
-    internal lateinit var onItemClickListener: (View, Int) -> Unit
+    private var itemHeight: Int = 1
 
-    /*internal fun setOnItemClickListener(listener: (View, Int) -> Unit) {
-        onItemClickListener = listener
-    }*/
+    internal lateinit var onItemClickListener: (View, Int) -> Unit
 
     internal fun setData(dataList: MutableList<T>){
         this.dataList = dataList
     }
 
     internal fun getData(): MutableList<T> = dataList
+
+    internal fun setItemHeight(height: Int){
+        itemHeight = height
+    }
 
     @Suppress("UNCHECKED_CAST")
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): VH {
@@ -40,6 +42,7 @@ abstract class BaseSpinnerAdapter<T, VH: BaseViewHolder> internal constructor(
     }
 
     override fun onBindViewHolder(holder: VH, position: Int) {
+        holder.itemView.layoutParams.height = itemHeight
         holder.itemView.setOnClickListener {
             onItemClickListener(holder.itemView, position)
         }

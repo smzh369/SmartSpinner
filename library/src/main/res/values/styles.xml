@@ -32,4 +32,18 @@
         <attr name="showSelectedColor" format="boolean"/>
     </declare-styleable>
 
+    <declare-styleable name="SmartSpinnerLayout">
+        <attr name="menuWidth" format="dimension|enum">
+            <enum name="match_parent" value="-1" />
+            <enum name="wrap_content" value="-2" />
+            <enum name="fit_horizon" value="-3" />
+        </attr>
+        <attr name="menuOffsetX" format="dimension"/>
+        <attr name="menuOffsetY" format="dimension"/>
+        <attr name="selectedColor" format="color" />
+        <attr name="selectedBackground" format="color|reference"/>
+        <attr name="presetIndex" format="integer"/>
+        <attr name="showSelectedColor" format="boolean"/>
+    </declare-styleable>
+
 </resources>

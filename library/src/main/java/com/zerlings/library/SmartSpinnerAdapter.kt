@@ -6,7 +6,7 @@ import android.support.annotation.LayoutRes
 import android.util.TypedValue
 import kotlinx.android.synthetic.main.spinner_simple_item.view.*
 
-class SimpleSpinnerAdapter<T:CharSequence>(
+class SmartSpinnerAdapter<T:CharSequence>(
     @LayoutRes layoutResId: Int,
     stringList: MutableList<T>,
     private val startPadding: Int,
@@ -17,16 +17,9 @@ class SimpleSpinnerAdapter<T:CharSequence>(
     private val gravity: Int
 ) : BaseSpinnerAdapter<T, BaseViewHolder>(layoutResId, stringList) {
 
-    private var itemHeight: Int = 1
-
-    internal fun setItemHeight(height: Int){
-        itemHeight = height
-    }
-
     override fun onBindViewHolder(holder: BaseViewHolder, position: Int) {
         super.onBindViewHolder(holder, position)
         holder.itemView.apply {
-            layoutParams.height = itemHeight
             tv_simple.setPaddingRelative(startPadding,0,endPadding,0)
             tv_simple.gravity = gravity
             tv_simple.setBackgroundResource(menuBackground)
