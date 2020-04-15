@@ -15,17 +15,12 @@ import android.view.ViewGroup
 import android.widget.PopupWindow
 import kotlinx.android.synthetic.main.spinner_menu.view.*
 
-class SmartSpinnerLayout<T> @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ConstraintLayout(context, attrs, defStyleAttr){
+class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ConstraintLayout(context, attrs, defStyleAttr){
 
     private val menuWidth: Int
     private val menuOffsetX: Int
     private val menuOffsetY: Int
     private val presetIndex: Int
-    private val showSelectedColor: Boolean
-    @ColorInt
-    private val selectedTint: Int
-    @DrawableRes
-    private val selectedBackground: Int
     private val dropDownMenu: PopupWindow
     private val recyclerView: RecyclerView
     private var selectedIndex = -1
@@ -37,16 +32,11 @@ class SmartSpinnerLayout<T> @JvmOverloads constructor(context: Context, attrs: A
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SmartSpinnerLayout)
         //setMenuPaddingAndLocation
-        menuWidth = typedArray.getLayoutDimension(R.styleable.SmartSpinnerLayout_menuWidth, -3)
-        menuOffsetX = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_menuOffsetX, 0)
-        menuOffsetY = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_menuOffsetY, 0)
-        //setTextStyle
-        selectedTint = typedArray.getColor(R.styleable.SmartSpinnerLayout_selectedColor, Color.CYAN)
-        //setBackground
-        selectedBackground = typedArray.getResourceId(R.styleable.SmartSpinnerLayout_selectedBackground, R.color.light_gray)
+        menuWidth = typedArray.getLayoutDimension(R.styleable.SmartSpinnerLayout_layoutMenuWidth, -3)
+        menuOffsetX = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_layoutMenuOffsetX, 0)
+        menuOffsetY = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_layoutMenuOffsetY, 0)
         //setPreset
-        presetIndex = typedArray.getInt(R.styleable.SmartSpinnerLayout_presetIndex, -1)
-        showSelectedColor = typedArray.getBoolean(R.styleable.SmartSpinnerLayout_showSelectedColor, false)
+        presetIndex = typedArray.getInt(R.styleable.SmartSpinnerLayout_layoutPresetIndex, -1)
         //setPopupMenu
         val popupView = View.inflate(context, R.layout.spinner_menu, null)
         recyclerView = popupView.rcv
@@ -77,13 +67,11 @@ class SmartSpinnerLayout<T> @JvmOverloads constructor(context: Context, attrs: A
         return super.onTouchEvent(event)
     }
 
-    private fun setAdapter(baseAdapter: BaseSpinnerLayoutAdapter<T>){
+    fun setAdapter(baseAdapter: BaseSpinnerLayoutAdapter<T>){
         adapter = baseAdapter
         recyclerView.adapter = adapter
         adapter!!.apply {
             setSelectedPosition(selectedIndex)
-            setSelectedColor(selectedTint)
-            setSelectedBackground(selectedBackground)
             onItemClickListener = {view, position ->
                 setSelectedIndex(view, position)
                 notifyDataSetChanged()
@@ -107,17 +95,14 @@ class SmartSpinnerLayout<T> @JvmOverloads constructor(context: Context, attrs: A
         }
     }
 
-    fun setData(dataSource: MutableList<T>){
+    fun setDataSource(dataSource: MutableList<T>){
         adapter?.setData(dataSource)
         setSelectedIndex(this, presetIndex, false)
     }
 
     private fun resizeDropDownMenu(){
         dropDownMenu.width = if (menuWidth == -3) width else menuWidth
-        adapter!!.apply {
-            setItemHeight(height)
-            notifyDataSetChanged()
-        }
+        adapter!!.notifyDataSetChanged()
     }
 
     fun getItemAtPosition(position: Int): T? {
@@ -125,7 +110,7 @@ class SmartSpinnerLayout<T> @JvmOverloads constructor(context: Context, attrs: A
     }
 
     fun getSelectedItem(): T? {
-        return adapter?.getData()?.get(selectedIndex)
+        return if (selectedIndex == -1) null else adapter?.getData()?.get(selectedIndex)
     }
 
     fun getSelectedIndex(): Int {

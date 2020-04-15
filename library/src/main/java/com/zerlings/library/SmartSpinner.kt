@@ -96,7 +96,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         val popupView = View.inflate(context, R.layout.spinner_menu, null)
         recyclerView = popupView.rcv
         recyclerView.layoutManager = LinearLayoutManager(context)
-        setAdapter(SmartSpinnerAdapter(R.layout.spinner_simple_item, entries?.toMutableList() ?: ArrayList(), menuPaddingStart, menuPaddingEnd, menuBackground, textTint, textSize, gravity))
+        setAdapter(SmartSpinnerAdapter(R.layout.spinner_simple_item, entries?.toMutableList() ?: ArrayList(), menuPaddingStart, menuPaddingEnd,  textTint, selectedTint, menuBackground, selectedBackground, textSize, gravity))
         dropDownMenu = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
             isFocusable = true
             isOutsideTouchable = true
@@ -128,8 +128,6 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         recyclerView.adapter = adapter
         adapter!!.apply {
             setSelectedPosition(selectedIndex)
-            setSelectedColor(selectedTint)
-            setSelectedBackground(selectedBackground)
             onItemClickListener = {view, position ->
                 setSelectedIndex(view, position)
                 notifyDataSetChanged()
