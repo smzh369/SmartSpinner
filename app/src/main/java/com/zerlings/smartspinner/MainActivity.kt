@@ -17,6 +17,9 @@ class MainActivity : AppCompatActivity() {
         spinner.setOnSpinnerResetListener {
             Toast.makeText(this, spinner.getSelectedItem(), Toast.LENGTH_SHORT).show()
         }
+        spinner_reset.setOnClickListener {
+            spinner.reset()
+        }
         val fruitList = ArrayList<Fruit>()
         fruitList.add(Fruit("apple", R.mipmap.wechat_icon))
         fruitList.add(Fruit("banana", R.mipmap.withdraw_alipay))
@@ -29,7 +32,7 @@ class MainActivity : AppCompatActivity() {
         spinnerLayout.setOnSpinnerResetListener {
             Toast.makeText(this, spinnerLayout.getSelectedItem()?.title, Toast.LENGTH_SHORT).show()
         }
-        reset.setOnClickListener {
+        spinner_layout_reset.setOnClickListener {
             spinnerLayout.reset()
         }
     }

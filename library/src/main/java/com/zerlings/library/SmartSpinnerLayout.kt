@@ -2,9 +2,6 @@ package com.zerlings.library
 
 import android.annotation.SuppressLint
 import android.content.Context
-import android.graphics.Color
-import android.support.annotation.ColorInt
-import android.support.annotation.DrawableRes
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
