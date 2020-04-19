@@ -20,12 +20,10 @@ class MainActivity : AppCompatActivity() {
         spinner_reset.setOnClickListener {
             spinner.reset()
         }
-        val fruitList = ArrayList<Fruit>()
-        fruitList.add(Fruit("apple", R.mipmap.wechat_icon))
-        fruitList.add(Fruit("banana", R.mipmap.withdraw_alipay))
-        fruitList.add(Fruit("orange", R.mipmap.withdraw_unipay))
-        val spinnerLayout: SmartSpinnerLayout<Fruit> = findViewById(R.id.spinner_layout)
-        spinnerLayout.setAdapter(SmartSpinnerLayoutAdapter(fruitList))
+        val spinnerLayout: SmartSpinnerLayout<PayType> = findViewById(R.id.spinner_layout)
+        spinnerLayout.setAdapter(SmartSpinnerLayoutAdapter(arrayListOf(PayType("wechat", R.mipmap.wechat_icon),
+            PayType("alipay", R.mipmap.withdraw_alipay),
+            PayType("unipay", R.mipmap.withdraw_unipay))))
         spinnerLayout.setOnItemSelectedListener { view, index ->
             Toast.makeText(this, spinnerLayout.getItemAtPosition(index)?.title, Toast.LENGTH_SHORT).show()
         }

@@ -10,7 +10,7 @@ import com.zerlings.library.SmartSpinnerLayout
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.item_spinner_layout.view.*
 
-class SmartSpinnerLayoutAdapter @JvmOverloads constructor(dataList: MutableList<Fruit>, @LayoutRes layoutResId: Int = R.layout.item_spinner_layout) : BaseSpinnerLayoutAdapter<Fruit>(layoutResId, dataList) {
+class SmartSpinnerLayoutAdapter @JvmOverloads constructor(dataList: MutableList<PayType>, @LayoutRes layoutResId: Int = R.layout.item_spinner_layout) : BaseSpinnerLayoutAdapter<PayType>(layoutResId, dataList) {
 
     override fun onBind(holder: BaseViewHolder, position: Int) {
         holder.itemView.apply {
@@ -29,7 +29,7 @@ class SmartSpinnerLayoutAdapter @JvmOverloads constructor(dataList: MutableList<
     }
 
     override fun onRefresh(view: SmartSpinnerLayout<*>, position: Int) {
-        view.spinner_text.text = if (position == -1) "fruit" else dataList[position].title
+        view.spinner_text.text = if (position == -1) "paytype" else dataList[position].title
         view.spinner_text.setTextColor(if (position == presetPosition) Color.BLACK else ResourcesCompat.getColor(view.resources, R.color.colorPrimary, null))
     }
 }
