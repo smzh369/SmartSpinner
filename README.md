@@ -1,12 +1,14 @@
 # Smart Spinner [![](https://jitpack.io/v/com.gitee.Zerlings/SmartSpinner.svg)](https://jitpack.io/#com.gitee.Zerlings/SmartSpinner)  
 
-SmartSpinner是一款灵活的弹出菜单控件，相比于原生的Spinner和PopupMenu，在保留易用性的同时，具有高度的可定制性，能满足更多UI上的需求。兼容Api 17以上。
+SmartSpinner是一款灵活的弹出菜单控件，采用Kotlin编写，支持在Java中使用（需开启kotlin插件支持），兼容Api 17以上。
+
+相比于原生的Spinner，SmartSpinner在保留易用性的同时，具有高度的可定制性，能满足更多UI上的需求。
 
 控件包含两个版本，简单易用的基础版SmartSpinner，和支持自定义布局的进阶版SmartSpinnerLayout。
 
 Usage
 -------
-#### 1.SmartSpinner
+### 1.SmartSpinner
 基础版的使用很简单:
 ```xml
  <com.zerlings.library.SmartSpinner
@@ -31,19 +33,46 @@ Usage
  spinner.setDataSource(arrayListOf("apple", "banana", "orange"))
 ```
 
-##### Listeners
+#### Listeners
 支持两种监听器。除了常规的选择监听外，还提供一个重置监听:
 ```kotlin
+//Kotlin
 spinner.setOnItemSelectedListener { view, index ->
             //todo
         }
-
 spinner.setOnSpinnerResetListener {
             //todo
         }
-```
 
-##### Attributes
+//Java
+spinner.setOnItemSelectedListener(new Function2<View, Integer, Unit>() {
+            @Override
+            public Unit invoke(View view, Integer integer) {
+                //todo
+                return null;
+            }
+        });
+spinner.setOnSpinnerResetListener(new Function0<Unit>() {
+            @Override
+            public Unit invoke() {
+                //todo
+                return null;
+            }
+        });
+
+//Java with lambda
+spinner.setOnItemSelectedListener((view, i) -> {
+            //todo
+            return null;
+        });
+spinner.setOnSpinnerResetListener(() -> {
+            //todo
+            return null;
+        });
+```
+* Note: 在Java中使用需要返回一个任意值
+
+#### Attributes
 基础版有丰富的自定义属性:
 
 | name                      | type      | info                                                   |
@@ -70,7 +99,7 @@ spinner.setOnSpinnerResetListener {
 | showSelectedColor       | boolean | 若此项为true，当选中item与预设不同时，spinner文本颜色会随item改变 |
 | entries                   | reference | 数据源，定义在<string-array/>标签下的字符串数组，用法与官方spinner相同 |
 
-#### 2.SmartSpinnerLayout
+### 2.SmartSpinnerLayout
 进阶版首先仍是在xml中定义：
 ```xml
 <com.zerlings.library.SmartSpinnerLayout
@@ -127,21 +156,50 @@ class SmartSpinnerLayoutAdapter(dataList: MutableList<PayType>) : BaseSpinnerLay
 最后在代码中初始化：
 ```kotlin
 val spinnerLayout: SmartSpinnerLayout<PayType> = findViewById(R.id.spinner_layout)
-spinnerLayout.setAdapter(SmartSpinnerLayoutAdapter(arrayListOf(PayType("apple", R.mipmap.wechat_icon),
+val adapter = SmartSpinnerLayoutAdapter(arrayListOf(PayType("apple", R.mipmap.wechat_icon),
             PayType("banana", R.mipmap.withdraw_alipay),
-            PayType("orange", R.mipmap.withdraw_unipay))))
+            PayType("orange", R.mipmap.withdraw_unipay)))
+spinnerLayout.setAdapter(adapter)
 ```
-##### Listeners
+* Note: Java中使用方法相似，此处省略相关代码
+#### Listeners
 监听器用法与基础版相同：
 ```
+//Kotlin
 spinnerLayout.setOnItemSelectedListener { view, index ->
             //todo
         }
 spinnerLayout.setOnSpinnerResetListener {
             //todo
         }
+
+//Java
+spinner.setOnItemSelectedListener(new Function2<View, Integer, Unit>() {
+            @Override
+            public Unit invoke(View view, Integer integer) {
+                //todo
+                return null;
+            }
+        });
+spinner.setOnSpinnerResetListener(new Function0<Unit>() {
+            @Override
+            public Unit invoke() {
+                //todo
+                return null;
+            }
+        });
+
+//Java with lambda
+spinner.setOnItemSelectedListener((view, i) -> {
+            //todo
+            return null;
+        });
+spinner.setOnSpinnerResetListener(() -> {
+            //todo
+            return null;
+        });
 ```
-##### Attributes
+#### Attributes
 进阶版的xml属性相对较少，因为大部分都可以通过布局文件定制：
 | name                      | type      | info                                                   |
 |------------------------   |-----------|--------------------------------------------------------|
