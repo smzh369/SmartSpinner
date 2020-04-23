@@ -1,10 +1,14 @@
 # Smart Spinner [![](https://jitpack.io/v/com.gitee.Zerlings/SmartSpinner.svg)](https://jitpack.io/#com.gitee.Zerlings/SmartSpinner)  
 
-SmartSpinner是一款灵活的弹出菜单控件，采用Kotlin编写，支持在Java中使用（需开启kotlin插件支持），兼容Api 17以上。
-
-相比于原生的Spinner，SmartSpinner在保留易用性的同时，具有高度的可定制性，能满足更多UI上的需求。
+SmartSpinner是一款灵活的弹出菜单控件，相比于原生的Spinner，SmartSpinner在保留易用性的同时，具有高度的可定制性，能满足更多UI上的需求。
 
 控件包含两个版本，简单易用的基础版SmartSpinner，和支持自定义布局的进阶版SmartSpinnerLayout。
+
+Requirement
+-----------
+Kotlin / Java(需开启kotlin插件支持)
+
+Android API 17+
 
 Usage
 -------
@@ -98,6 +102,9 @@ spinner.setOnSpinnerResetListener(() -> {
 | selectedBackground      | color/reference | 弹出菜单被选中item的背景色 |
 | showSelectedColor       | boolean | 若此项为true，当选中item与预设不同时，spinner文本颜色会随item改变 |
 | entries                   | reference | 数据源，定义在<string-array/>标签下的字符串数组，用法与官方spinner相同 |
+| showDivider      | boolean | 下拉菜单显示分隔线 |
+| dividerColor       | color | 分隔线颜色 |
+| dividerPadding          | dimension | 分割线左右边距 |
 
 ### 2.SmartSpinnerLayout
 进阶版首先仍是在xml中定义：
@@ -162,6 +169,7 @@ val adapter = SmartSpinnerLayoutAdapter(arrayListOf(PayType("apple", R.mipmap.we
 spinnerLayout.setAdapter(adapter)
 ```
 * Note: Java中使用方法相似，此处省略相关代码
+
 #### Listeners
 监听器用法与基础版相同：
 ```
@@ -199,6 +207,7 @@ spinner.setOnSpinnerResetListener(() -> {
             return null;
         });
 ```
+
 #### Attributes
 进阶版的xml属性相对较少，因为大部分都可以通过布局文件定制：
 | name                      | type      | info                                                   |
@@ -207,6 +216,9 @@ spinner.setOnSpinnerResetListener(() -> {
 | layoutMenuOffsetX        | dimension  | 菜单弹出位置横向偏移量 |
 | layoutMenuOffsetY        | dimension  | 菜单弹出位置纵向偏移量 |
 | layoutPresetIndex        | integer | 默认选中位置 |
+| showDivider      | boolean | 下拉菜单显示分隔线 |
+| dividerColor       | color | 分隔线颜色 |
+| dividerPadding          | dimension | 分割线左右边距 |
 
 Include
 -------
@@ -222,7 +234,7 @@ allprojects {
 然后在app文件夹下的`build.gradle`中引入：
 ```
 dependencies {
-    implementation 'com.gitee.Zerlings:SmartSpinner:0.1.0'
+    implementation 'com.gitee.Zerlings:SmartSpinner:0.1.1'
 }
 ```
 
