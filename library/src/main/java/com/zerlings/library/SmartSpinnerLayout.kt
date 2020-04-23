@@ -62,6 +62,7 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
                 initialized = true
             }
             if (!dropDownMenu.isShowing && adapter!!.itemCount > 0) {
+                adapter!!.notifyDataSetChanged()
                 dropDownMenu.showAsDropDown(this, menuOffsetX, menuOffsetY)
             } else {
                 dropDownMenu.dismiss()
@@ -77,7 +78,6 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
             setSelectedPosition(selectedIndex)
             onItemClickListener = {view, position ->
                 setSelectedIndex(view, position)
-                notifyDataSetChanged()
                 dropDownMenu.dismiss()
             }
         }
@@ -105,7 +105,6 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
 
     private fun resizeDropDownMenu(){
         dropDownMenu.width = if (menuWidth == -3) width else menuWidth
-        adapter!!.notifyDataSetChanged()
     }
 
     fun getItemAtPosition(position: Int): T? {

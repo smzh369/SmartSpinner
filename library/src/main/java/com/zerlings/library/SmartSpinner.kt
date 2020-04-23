@@ -120,6 +120,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
                 initialized = true
             }
             if (!dropDownMenu.isShowing && adapter!!.itemCount > 0) {
+                adapter!!.notifyDataSetChanged()
                 dropDownMenu.showAsDropDown(this, menuOffsetX, menuOffsetY)
             } else {
                 dropDownMenu.dismiss()
@@ -135,7 +136,6 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
             setSelectedPosition(selectedIndex)
             onItemClickListener = {view, position ->
                 setSelectedIndex(view, position)
-                notifyDataSetChanged()
                 dropDownMenu.dismiss()
             }
         }
@@ -166,7 +166,6 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         dropDownMenu.width = if (menuWidth == -3) width else menuWidth
         (adapter as SmartSpinnerAdapter).apply {
             setItemHeight(height)
-            notifyDataSetChanged()
         }
     }
 
