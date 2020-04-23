@@ -2,6 +2,7 @@ package com.zerlings.library
 
 import android.annotation.SuppressLint
 import android.content.Context
+import android.graphics.Color
 import android.support.constraint.ConstraintLayout
 import android.support.v7.widget.LinearLayoutManager
 import android.support.v7.widget.RecyclerView
@@ -29,15 +30,20 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SmartSpinnerLayout)
         //setMenuPaddingAndLocation
-        menuWidth = typedArray.getLayoutDimension(R.styleable.SmartSpinnerLayout_layoutMenuWidth, -3)
-        menuOffsetX = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_layoutMenuOffsetX, 0)
-        menuOffsetY = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_layoutMenuOffsetY, 0)
+        menuWidth = typedArray.getLayoutDimension(R.styleable.SmartSpinnerLayout_menuWidth, -3)
+        menuOffsetX = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_menuOffsetX, 0)
+        menuOffsetY = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_menuOffsetY, 0)
         //setPreset
-        presetIndex = typedArray.getInt(R.styleable.SmartSpinnerLayout_layoutPresetIndex, -1)
+        presetIndex = typedArray.getInt(R.styleable.SmartSpinnerLayout_presetIndex, -1)
         //setPopupMenu
         val popupView = View.inflate(context, R.layout.spinner_menu, null)
         recyclerView = popupView.rcv
         recyclerView.layoutManager = LinearLayoutManager(context)
+        if (typedArray.getBoolean(R.styleable.SmartSpinnerLayout_showDivider, false)){
+            val dividerColor = typedArray.getColor(R.styleable.SmartSpinnerLayout_dividerColor, Color.LTGRAY)
+            val dividerPadding = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_dividerPadding, 0)
+            recyclerView.addItemDecoration(BaseSpinnerDivider(context, dividerColor, dividerPadding))
+        }
         dropDownMenu = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
             isFocusable = true
             isOutsideTouchable = true

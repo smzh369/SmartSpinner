@@ -8,7 +8,6 @@ import android.graphics.drawable.Drawable
 import android.support.annotation.ColorInt
 import android.support.annotation.DrawableRes
 import android.support.v4.content.ContextCompat
-import android.support.v4.content.res.ResourcesCompat
 import android.support.v4.graphics.drawable.DrawableCompat
 import android.support.v7.widget.AppCompatTextView
 import android.support.v7.widget.LinearLayoutManager
@@ -86,7 +85,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         showSelectedColor = typedArray.getBoolean(R.styleable.SmartSpinner_showSelectedColor, false)
         //setArrow
         isArrowHidden = typedArray.getBoolean(R.styleable.SmartSpinner_hideArrow, false)
-        arrowTint = typedArray.getColor(R.styleable.SmartSpinner_arrowTint, ResourcesCompat.getColor(resources, android.R.color.black, null))
+        arrowTint = typedArray.getColor(R.styleable.SmartSpinner_arrowTint, Color.BLACK)
         arrowResId = typedArray.getResourceId(R.styleable.SmartSpinner_arrowDrawable, R.drawable.arrow)
         arrowDrawable = ContextCompat.getDrawable(getContext(), arrowResId)!!
         DrawableCompat.setTint(arrowDrawable, arrowTint)
@@ -95,7 +94,13 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         //setPopupMenu
         val popupView = View.inflate(context, R.layout.spinner_menu, null)
         recyclerView = popupView.rcv
+        recyclerView.setBackgroundResource(menuBackground)
         recyclerView.layoutManager = LinearLayoutManager(context)
+        if (typedArray.getBoolean(R.styleable.SmartSpinner_showDivider, false)){
+            val dividerColor = typedArray.getColor(R.styleable.SmartSpinner_dividerColor, Color.LTGRAY)
+            val dividerPadding = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_dividerPadding, 0)
+            recyclerView.addItemDecoration(BaseSpinnerDivider(context, dividerColor, dividerPadding))
+        }
         setAdapter(SmartSpinnerAdapter(R.layout.spinner_simple_item, entries?.toMutableList() ?: ArrayList(), menuPaddingStart, menuPaddingEnd,  textTint, selectedTint, menuBackground, selectedBackground, textSize, gravity))
         dropDownMenu = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
             isFocusable = true

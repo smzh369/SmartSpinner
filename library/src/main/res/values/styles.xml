@@ -4,6 +4,17 @@
         <flag name="start" value="0x00800003" />
         <flag name="center" value="0x11" />
     </attr>
+    <attr name="menuWidth" format="dimension|enum">
+        <enum name="match_parent" value="-1" />
+        <enum name="wrap_content" value="-2" />
+        <enum name="fit_horizon" value="-3" />
+    </attr>
+    <attr name="menuOffsetX" format="dimension"/>
+    <attr name="menuOffsetY" format="dimension"/>
+    <attr name="presetIndex" format="integer"/>
+    <attr name="showDivider" format="boolean"/>
+    <attr name="dividerColor" format="color"/>
+    <attr name="dividerPadding" format="dimension"/>
 
     <declare-styleable name="SmartSpinner">
         <attr name="arrowTint" format="color" />
@@ -13,13 +24,9 @@
         <attr name="textAlignment" />
         <attr name="menuPaddingStart" format="dimension"/>
         <attr name="menuPaddingEnd" format="dimension"/>
-        <attr name="menuWidth" format="dimension|enum">
-            <enum name="match_parent" value="-1" />
-            <enum name="wrap_content" value="-2" />
-            <enum name="fit_horizon" value="-3" />
-        </attr>
-        <attr name="menuOffsetX" format="dimension"/>
-        <attr name="menuOffsetY" format="dimension"/>
+        <attr name="menuWidth" />
+        <attr name="menuOffsetX"/>
+        <attr name="menuOffsetY"/>
         <attr name="selectedColor" format="color" />
         <attr name="textColor" format="color"/>
         <attr name="textSize" format="dimension"/>
@@ -28,19 +35,21 @@
         <attr name="spinnerBackground" format="color|reference"/>
         <attr name="menuBackground" format="color|reference"/>
         <attr name="selectedBackground" format="color|reference"/>
-        <attr name="presetIndex" format="integer"/>
+        <attr name="presetIndex"/>
         <attr name="showSelectedColor" format="boolean"/>
+        <attr name="showDivider"/>
+        <attr name="dividerColor"/>
+        <attr name="dividerPadding"/>
     </declare-styleable>
 
     <declare-styleable name="SmartSpinnerLayout">
-        <attr name="layoutMenuWidth" format="dimension|enum">
-            <enum name="match_parent" value="-1" />
-            <enum name="wrap_content" value="-2" />
-            <enum name="fit_horizon" value="-3" />
-        </attr>
-        <attr name="layoutMenuOffsetX" format="dimension"/>
-        <attr name="layoutMenuOffsetY" format="dimension"/>
-        <attr name="layoutPresetIndex" format="integer"/>
+        <attr name="menuWidth" />
+        <attr name="menuOffsetX"/>
+        <attr name="menuOffsetY"/>
+        <attr name="presetIndex"/>
+        <attr name="showDivider"/>
+        <attr name="dividerColor"/>
+        <attr name="dividerPadding"/>
     </declare-styleable>
 
 </resources>

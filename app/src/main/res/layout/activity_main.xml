@@ -19,7 +19,8 @@
         app:showSelectedColor="true"
         app:presetIndex="2"
         app:menuWidth="fit_horizon"
-        app:arrowPadding="0dp"/>
+        app:arrowPadding="0dp"
+        app:showDivider="true"/>
 
     <Button
         android:id="@+id/spinner_reset"
@@ -31,7 +32,8 @@
         android:id="@+id/spinner_layout"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        app:layoutMenuWidth="match_parent"
+        app:menuWidth="match_parent"
+        app:showDivider="true"
         android:background="@color/colorPrimaryDark">
 
         <TextView
