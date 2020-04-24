@@ -15,6 +15,7 @@
     <attr name="showDivider" format="boolean"/>
     <attr name="dividerColor" format="color"/>
     <attr name="dividerPadding" format="dimension"/>
+    <attr name="dividerHeight" format="dimension"/>
 
     <declare-styleable name="SmartSpinner">
         <attr name="arrowTint" format="color" />
@@ -40,6 +41,7 @@
         <attr name="showDivider"/>
         <attr name="dividerColor"/>
         <attr name="dividerPadding"/>
+        <attr name="dividerHeight"/>
     </declare-styleable>
 
     <declare-styleable name="SmartSpinnerLayout">
@@ -50,6 +52,7 @@
         <attr name="showDivider"/>
         <attr name="dividerColor"/>
         <attr name="dividerPadding"/>
+        <attr name="dividerHeight"/>
     </declare-styleable>
 
 </resources>

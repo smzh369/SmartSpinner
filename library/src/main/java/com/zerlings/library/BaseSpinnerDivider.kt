@@ -37,22 +37,23 @@ class BaseSpinnerDivider @JvmOverloads constructor(context: Context, @ColorInt c
         val left = parent.paddingLeft
         val right = parent.width - parent.paddingRight
         val childCount = parent.childCount
-        for (i in 0 until childCount) {
+        for (i in 0 until childCount - 1) {
             val child: View = parent.getChildAt(i)
             val params = child.layoutParams as RecyclerView.LayoutParams
-            val bottom: Int = child.top - params.topMargin
-            val top = bottom - dividerHeight
+            val top: Int = child.bottom + params.bottomMargin
+            val bottom = top + dividerHeight
             divider.setBounds(left + inset, top, right - inset, bottom)
             divider.draw(c)
         }
     }
 
     //由于Divider也有宽高，每一个Item需要向下或者向右偏移
-    override fun getItemOffsets(outRect: Rect, itemPosition: Int, parent: RecyclerView) = outRect.set(0, dividerHeight, 0, 0)
+    override fun getItemOffsets(outRect: Rect, itemPosition: Int, parent: RecyclerView) {
+        if (itemPosition > 0) {
+            outRect.set(0, dividerHeight, 0, 0)
+        }
+    }
 
-    /**
-     * 根据手机的分辨率从 dp 的单位 转成为 px(像素)
-     */
     fun dip2px(context: Context, dpValue: Float): Int {
         val scale = context.resources.displayMetrics.density
         return (dpValue * scale + 0.5f).toInt()
