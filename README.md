@@ -104,7 +104,8 @@ spinner.setOnSpinnerResetListener(() -> {
 | entries                   | reference | 数据源，定义在<string-array/>标签下的字符串数组，用法与官方spinner相同 |
 | showDivider      | boolean | 下拉菜单显示分隔线 |
 | dividerColor       | color | 分隔线颜色 |
-| dividerPadding          | dimension | 分割线左右边距 |
+| dividerPadding          | dimension | 分隔线左右边距 |
+| dividerHeight          | dimension | 分隔线厚度 |
 
 ### 2.SmartSpinnerLayout
 进阶版首先仍是在xml中定义：
@@ -218,7 +219,8 @@ spinner.setOnSpinnerResetListener(() -> {
 | layoutPresetIndex        | integer | 默认选中位置 |
 | showDivider      | boolean | 下拉菜单显示分隔线 |
 | dividerColor       | color | 分隔线颜色 |
-| dividerPadding          | dimension | 分割线左右边距 |
+| dividerPadding          | dimension | 分隔线左右边距 |
+| dividerHeight          | dimension | 分隔线厚度 |
 
 Include
 -------

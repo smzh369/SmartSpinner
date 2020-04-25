@@ -42,7 +42,8 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
         if (typedArray.getBoolean(R.styleable.SmartSpinnerLayout_showDivider, false)){
             val dividerColor = typedArray.getColor(R.styleable.SmartSpinnerLayout_dividerColor, Color.LTGRAY)
             val dividerPadding = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_dividerPadding, 0)
-            recyclerView.addItemDecoration(BaseSpinnerDivider(context, dividerColor, dividerPadding))
+            val dividerHeight = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_dividerHeight, dip2px(context, 1f))
+            recyclerView.addItemDecoration(BaseSpinnerDivider(context, dividerColor, dividerPadding, dividerHeight))
         }
         dropDownMenu = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
             isFocusable = true
@@ -125,5 +126,10 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
 
     fun setOnSpinnerResetListener(listener: () -> Unit){
         onSpinnerResetListener = listener
+    }
+
+    private fun dip2px(context: Context, dpValue: Float): Int {
+        val scale = context.resources.displayMetrics.density
+        return (dpValue * scale + 0.5f).toInt()
     }
 }
