@@ -11,8 +11,8 @@ android {
         applicationId "com.zerlings.smartspinner"
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode 1
-        versionName "0.1.0"
+        versionCode 3
+        versionName "0.1.2"
     }
     buildTypes {
         release {

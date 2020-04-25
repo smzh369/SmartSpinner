@@ -34,6 +34,7 @@
         android:layout_height="50dp"
         app:menuWidth="match_parent"
         app:showDivider="true"
+        app:dividerHeight="5dp"
         android:background="@color/colorPrimaryDark">
 
         <TextView
