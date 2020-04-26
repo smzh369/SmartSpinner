@@ -1,6 +1,6 @@
 package com.zerlings.library
 
-import android.support.annotation.LayoutRes
+import androidx.annotation.LayoutRes
 
 abstract class BaseSpinnerLayoutAdapter<T>(@LayoutRes layoutResId: Int, dataList: MutableList<T>) : BaseSpinnerAdapter<T, BaseViewHolder>(layoutResId, dataList){
 

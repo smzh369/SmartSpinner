@@ -6,16 +6,17 @@ import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.drawable.ColorDrawable
 import android.graphics.drawable.Drawable
-import android.support.annotation.ColorInt
-import android.support.v4.content.res.ResourcesCompat
-import android.support.v7.widget.RecyclerView
-import android.support.v7.widget.RecyclerView.ItemDecoration
+import androidx.annotation.ColorInt
+import androidx.core.content.res.ResourcesCompat
+import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.RecyclerView.ItemDecoration
 import android.view.View
 
 /**
  * @param context
- * @param color       分割线颜色
- * @param inset       分割线缩进值
+ * @param color          分割线颜色
+ * @param inset          分割线缩进值
+ * @param dividerHeight  分割线缩进值
  */
 class BaseSpinnerDivider @JvmOverloads constructor(context: Context, @ColorInt color: Int, private val inset: Int = 0, private val dividerHeight: Int = 1) : ItemDecoration() {
 
