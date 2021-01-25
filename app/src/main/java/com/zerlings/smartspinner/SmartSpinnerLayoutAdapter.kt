@@ -4,9 +4,9 @@ import android.graphics.Color
 import android.support.annotation.LayoutRes
 import android.support.v4.content.res.ResourcesCompat
 import android.view.View
-import com.zerlings.library.BaseSpinnerLayoutAdapter
-import com.zerlings.library.BaseViewHolder
-import com.zerlings.library.SmartSpinnerLayout
+import com.zerlings.spinner.BaseSpinnerLayoutAdapter
+import com.zerlings.spinner.BaseViewHolder
+import com.zerlings.spinner.SmartSpinnerLayout
 import kotlinx.android.synthetic.main.activity_main.view.*
 import kotlinx.android.synthetic.main.item_spinner_layout.view.*
 
