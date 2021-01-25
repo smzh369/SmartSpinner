@@ -80,8 +80,8 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         //setPreset
         presetText = typedArray.getString(R.styleable.SmartSpinner_presetText)
         presetIndex = if (presetText != null) -1 else typedArray.getInt(R.styleable.SmartSpinner_presetIndex, 0)
-        entries = typedArray.getTextArray(R.styleable.SmartSpinner_entries)
-        text = presetText ?: entries?.get(0)
+        entries = typedArray.getTextArray(R.styleable.SmartSpinner_entries) ?: context.resources.getTextArray(R.array.spinner_default)
+        text = presetText ?: entries[0]
         showSelectedColor = typedArray.getBoolean(R.styleable.SmartSpinner_showSelectedColor, false)
         //setArrow
         isArrowHidden = typedArray.getBoolean(R.styleable.SmartSpinner_hideArrow, false)
@@ -102,7 +102,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dividerHeight = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_dividerHeight, dip2px(context, 1f))
             recyclerView.addItemDecoration(BaseSpinnerDivider(context, dividerColor, dividerPadding, dividerHeight))
         }
-        setAdapter(SmartSpinnerAdapter(R.layout.spinner_simple_item, entries?.toMutableList() ?: ArrayList(), menuPaddingStart, menuPaddingEnd,  textTint, selectedTint, menuBackground, selectedBackground, textSize, gravity))
+        setAdapter(SmartSpinnerAdapter(R.layout.spinner_simple_item, entries.toMutableList(), menuPaddingStart, menuPaddingEnd,  textTint, selectedTint, menuBackground, selectedBackground, textSize, gravity))
         dropDownMenu = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
             isFocusable = true
             isOutsideTouchable = true
@@ -149,6 +149,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
     }
 
     fun setSelectedIndex(view: View, position: Int, selected: Boolean = true){
+        if (position >= adapter!!.itemCount) return
         selectedIndex = position
         adapter?.setSelectedPosition(position)
         text = if (position == -1) presetText else adapter?.getData()?.get(position)
