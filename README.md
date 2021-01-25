@@ -4,6 +4,8 @@ SmartSpinner是一款灵活的弹出菜单控件，相比于原生的Spinner，S
 
 控件包含两个版本，简单易用的基础版SmartSpinner，和支持自定义布局的进阶版SmartSpinnerLayout。
 
+0.2.0以上版本仅支持AndroidX
+
 Requirement
 -----------
 Kotlin / Java(需开启kotlin插件支持)
@@ -15,7 +17,7 @@ Usage
 ### 1.SmartSpinner
 基础版的使用很简单:
 ```xml
- <com.zerlings.library.SmartSpinner
+ <com.zerlings.spinner.SmartSpinner
         android:id="@+id/spinner"
         android:layout_width="100dp"
         android:layout_height="wrap_content"
@@ -110,7 +112,7 @@ spinner.setOnSpinnerResetListener(() -> {
 ### 2.SmartSpinnerLayout
 进阶版首先仍是在xml中定义：
 ```xml
-<com.zerlings.library.SmartSpinnerLayout
+<com.zerlings.spinner.SmartSpinnerLayout
         android:id="@+id/spinner_layout"
         android:layout_width="200dp"
         android:layout_height="50dp"
@@ -128,7 +130,7 @@ spinner.setOnSpinnerResetListener(() -> {
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintBottom_toBottomOf="parent"/>
 
-</com.zerlings.library.SmartSpinnerLayout>
+</com.zerlings.spinner.SmartSpinnerLayout>
 ```
 * Note: SmartSpinnerLayout可以看作是一个ConstraintLayout，内部可包含任意自定义布局，而弹出菜单item布局文件写法与RecyclerView相同。
 
@@ -236,7 +238,7 @@ allprojects {
 然后在app文件夹下的`build.gradle`中引入：
 ```
 dependencies {
-    implementation 'com.gitee.Zerlings:SmartSpinner:0.1.3'
+    implementation 'com.gitee.Zerlings:SmartSpinner:0.2.0'
 }
 ```
 
