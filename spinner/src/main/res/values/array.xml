@@ -7,4 +7,7 @@
         <item>go</item>
         <item>rust</item>
     </string-array>
+    <string-array name="spinner_default">
+        <item> </item>
+    </string-array>
 </resources>
