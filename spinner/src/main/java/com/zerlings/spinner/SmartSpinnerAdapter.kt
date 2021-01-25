@@ -1,8 +1,8 @@
 package com.zerlings.spinner
 
-import android.support.annotation.ColorInt
-import android.support.annotation.DrawableRes
-import android.support.annotation.LayoutRes
+import androidx.annotation.ColorInt
+import androidx.annotation.DrawableRes
+import androidx.annotation.LayoutRes
 import android.util.TypedValue
 import kotlinx.android.synthetic.main.spinner_simple_item.view.*
 

@@ -1,8 +1,8 @@
 package com.zerlings.smartspinner
 
 import android.graphics.Color
-import android.support.annotation.LayoutRes
-import android.support.v4.content.res.ResourcesCompat
+import androidx.annotation.LayoutRes
+import androidx.core.content.res.ResourcesCompat
 import android.view.View
 import com.zerlings.spinner.BaseSpinnerLayoutAdapter
 import com.zerlings.spinner.BaseViewHolder
