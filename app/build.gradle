@@ -11,8 +11,8 @@ android {
         applicationId "com.zerlings.smartspinner"
         minSdkVersion 17
         targetSdkVersion 29
-        versionCode 3
-        versionName "0.1.2"
+        versionCode 4
+        versionName "0.1.3"
     }
     buildTypes {
         release {
@@ -24,7 +24,7 @@ android {
 
 dependencies {
     implementation fileTree(dir: 'libs', include: ['*.jar'])
-    implementation project(":library")
+    implementation project(':spinner')
     implementation"org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
 }

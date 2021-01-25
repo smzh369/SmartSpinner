@@ -1,4 +1,4 @@
-package com.zerlings.library
+package com.zerlings.spinner
 
 import android.R.attr
 import android.annotation.SuppressLint

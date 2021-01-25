@@ -1,4 +1,4 @@
-package com.zerlings.library
+package com.zerlings.spinner
 
 import androidx.annotation.LayoutRes
 import androidx.recyclerview.widget.RecyclerView
