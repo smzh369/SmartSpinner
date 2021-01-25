@@ -57,7 +57,7 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
 
     @SuppressLint("ClickableViewAccessibility")
     override fun onTouchEvent(event: MotionEvent): Boolean {
-        if (isEnabled && event.action == MotionEvent.ACTION_UP) {
+        if (isEnabled && event.action == MotionEvent.ACTION_UP && adapter != null) {
             if (!initialized){
                 resizeDropDownMenu()
                 initialized = true
@@ -91,6 +91,7 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
     }
 
     fun setSelectedIndex(view: View, position: Int, selected: Boolean = true){
+        if (position >= adapter!!.itemCount) return
         selectedIndex = position
         adapter?.setSelectedPosition(position)
         adapter?.onRefresh(this, position)
