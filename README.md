@@ -93,6 +93,8 @@ spinner.setOnSpinnerResetListener(() -> {
 | menuWidth        | dimension/enum | 弹出菜单宽度 |
 | menuOffsetX        | dimension  | 菜单弹出位置横向偏移量 |
 | menuOffsetY        | dimension  | 菜单弹出位置纵向偏移量 |
+| menuRadius        | dimension  | 菜单圆角 |
+| menuElevation        | dimension  | 菜单阴影高度 |
 | textColor        | color | 文字颜色 |
 | selectedColor        | color | 选中item文字颜色 |
 | textSize        | color | 文字大小 |
@@ -101,6 +103,7 @@ spinner.setOnSpinnerResetListener(() -> {
 | presetIndex        | color | 默认选中item |
 | spinnerBackground        | color/reference | spinner背景色 |
 | menuBackground        | color/reference | 弹出菜单背景色 |
+| itemBackground        | color/reference | 弹出菜单item背景色 |
 | selectedBackground      | color/reference | 弹出菜单被选中item的背景色 |
 | showSelectedColor       | boolean | 若此项为true，当选中item与预设不同时，spinner文本颜色会随item改变 |
 | entries                   | reference | 数据源，定义在<string-array/>标签下的字符串数组，用法与官方spinner相同 |
@@ -116,8 +119,8 @@ spinner.setOnSpinnerResetListener(() -> {
         android:id="@+id/spinner_layout"
         android:layout_width="200dp"
         android:layout_height="50dp"
-        app:layoutMenuWidth="match_parent"
-        android:background="@color/colorPrimaryDark">
+        app:menuWidth="match_parent"
+        app:spinnerBackground="@color/colorPrimaryDark">
 
         <TextView
             android:id="@+id/spinner_text"
@@ -215,10 +218,14 @@ spinner.setOnSpinnerResetListener(() -> {
 进阶版的xml属性相对较少，因为大部分都可以通过布局文件定制：
 | name                      | type      | info                                                   |
 |------------------------   |-----------|--------------------------------------------------------|
-| layoutMenuWidth        | dimension/enum | 弹出菜单宽度 |
-| layoutMenuOffsetX        | dimension  | 菜单弹出位置横向偏移量 |
-| layoutMenuOffsetY        | dimension  | 菜单弹出位置纵向偏移量 |
-| layoutPresetIndex        | integer | 默认选中位置 |
+| menuWidth        | dimension/enum | 弹出菜单宽度 |
+| menuOffsetX        | dimension  | 菜单弹出位置横向偏移量 |
+| menuOffsetY        | dimension  | 菜单弹出位置纵向偏移量 |
+| menuRadius        | dimension  | 菜单圆角 |
+| menuElevation        | dimension  | 菜单阴影高度 |
+| presetIndex        | integer | 默认选中位置 |
+| spinnerBackground        | color/reference | spinner背景色 |
+| menuBackground        | color/reference | 弹出菜单背景色 |
 | showDivider      | boolean | 下拉菜单显示分隔线 |
 | dividerColor       | color | 分隔线颜色 |
 | dividerPadding          | dimension | 分隔线左右边距 |
@@ -238,7 +245,7 @@ allprojects {
 然后在app文件夹下的`build.gradle`中引入：
 ```
 dependencies {
-    implementation 'com.gitee.Zerlings:SmartSpinner:0.2.2'
+    implementation 'com.gitee.Zerlings:SmartSpinner:0.3.0'
 }
 ```
 

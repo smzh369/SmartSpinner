@@ -13,7 +13,7 @@ class SmartSpinnerAdapter<T:CharSequence>(
     private val endPadding: Int,
     @ColorInt private val textColor: Int,
     @ColorInt private var selectedColor: Int = 0,
-    @DrawableRes private val menuBackground: Int,
+    @DrawableRes private val itemBackground: Int,
     @DrawableRes private var selectedBackground: Int = 0,
     private val textSize: Float,
     private val gravity: Int
@@ -31,7 +31,7 @@ class SmartSpinnerAdapter<T:CharSequence>(
             layoutParams.height = itemHeight
             tv_simple.setPaddingRelative(startPadding,0,endPadding,0)
             tv_simple.gravity = gravity
-            tv_simple.setBackgroundResource(menuBackground)
+            tv_simple.setBackgroundResource(itemBackground)
             tv_simple.setTextColor(textColor)
             tv_simple.setTextSize(TypedValue.COMPLEX_UNIT_PX, textSize)
             tv_simple.text = dataList[position]

@@ -5,6 +5,7 @@ import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
+import android.os.Build
 import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.core.content.ContextCompat
@@ -28,6 +29,8 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val menuWidth: Int
     private val menuOffsetX: Int
     private val menuOffsetY: Int
+    private val menuRadius: Float
+    private val menuElevation: Float
     private val presetIndex: Int
     private val presetText: String?
     private val spinnerTextSize: Float
@@ -42,6 +45,8 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val headBackground: Int
     @DrawableRes
     private val menuBackground: Int
+    @DrawableRes
+    private val itemBackground: Int
     @DrawableRes
     private val selectedBackground: Int
     @ColorInt
@@ -76,6 +81,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         headBackground = typedArray.getResourceId(R.styleable.SmartSpinner_spinnerBackground, R.color.light_gray)
         setBackgroundResource(headBackground)
         menuBackground = typedArray.getResourceId(R.styleable.SmartSpinner_menuBackground, headBackground)
+        itemBackground = typedArray.getResourceId(R.styleable.SmartSpinner_menuBackground, R.color.transparent)
         selectedBackground = typedArray.getResourceId(R.styleable.SmartSpinner_selectedBackground, menuBackground)
         //setPreset
         presetText = typedArray.getString(R.styleable.SmartSpinner_presetText)
@@ -92,7 +98,10 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         setCompoundDrawablesRelativeWithIntrinsicBounds(null, null, if (!isArrowHidden) arrowDrawable else null, null)
         compoundDrawablePadding = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_arrowPadding, 100)
         //setPopupMenu
+        menuRadius = typedArray.getDimension(R.styleable.SmartSpinner_menuRadius, 0f)
+        menuElevation = typedArray.getDimension(R.styleable.SmartSpinner_menuElevation, 0f)
         val popupView = View.inflate(context, R.layout.spinner_menu, null)
+        popupView.cv.radius = menuRadius
         recyclerView = popupView.rcv
         recyclerView.setBackgroundResource(menuBackground)
         recyclerView.layoutManager = LinearLayoutManager(context)
@@ -102,13 +111,15 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dividerHeight = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_dividerHeight, dip2px(context, 1f))
             recyclerView.addItemDecoration(BaseSpinnerDivider(context, dividerColor, dividerPadding, dividerHeight))
         }
-        setAdapter(SmartSpinnerAdapter(R.layout.spinner_simple_item, entries.toMutableList(), menuPaddingStart, menuPaddingEnd,  textTint, selectedTint, menuBackground, selectedBackground, textSize, gravity))
+        setAdapter(SmartSpinnerAdapter(R.layout.spinner_simple_item, entries.toMutableList(), menuPaddingStart, menuPaddingEnd,  textTint, selectedTint, itemBackground, selectedBackground, textSize, gravity))
         dropDownMenu = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
             isFocusable = true
             isOutsideTouchable = true
             isTouchable = true
         }
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dropDownMenu.elevation = menuElevation
+        }
         isClickable = true
         typedArray.recycle()
     }

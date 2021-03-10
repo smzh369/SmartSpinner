@@ -4,6 +4,7 @@
     android:layout_height="match_parent"
     android:gravity="center"
     android:orientation="vertical"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
     <com.zerlings.spinner.SmartSpinner
@@ -20,7 +21,10 @@
         app:presetIndex="2"
         app:menuWidth="fit_horizon"
         app:arrowPadding="0dp"
-        app:showDivider="true"/>
+        app:showDivider="true"
+        app:menuRadius="4dp"
+        app:menuElevation="8dp"
+        app:menuBackground="@color/white"/>
 
     <Button
         android:id="@+id/spinner_reset"
@@ -36,7 +40,7 @@
         app:showDivider="true"
         app:dividerHeight="5dp"
         app:presetIndex="1"
-        android:background="@color/colorPrimaryDark">
+        app:spinnerBackground="@color/colorPrimaryDark">
 
         <TextView
             android:id="@+id/spinner_text"

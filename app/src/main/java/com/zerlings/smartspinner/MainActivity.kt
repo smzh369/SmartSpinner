@@ -20,6 +20,7 @@ class MainActivity : AppCompatActivity() {
         spinner_reset.setOnClickListener {
             spinner.reset()
         }
+        spinner.setDataSource(arrayListOf("apple", "banana", "orange", "banana", "orange", "banana", "orange"))
         val spinnerLayout: SmartSpinnerLayout<PayType> = findViewById(R.id.spinner_layout)
         spinnerLayout.setAdapter(SmartSpinnerLayoutAdapter(arrayListOf(PayType("wechat", R.mipmap.wechat_icon),
             PayType("alipay", R.mipmap.withdraw_alipay),

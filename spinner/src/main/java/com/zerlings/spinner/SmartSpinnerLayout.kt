@@ -3,6 +3,7 @@ package com.zerlings.spinner
 import android.annotation.SuppressLint
 import android.content.Context
 import android.graphics.Color
+import android.os.Build
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
@@ -11,6 +12,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
+import androidx.annotation.DrawableRes
 import kotlinx.android.synthetic.main.spinner_menu.view.*
 
 class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ConstraintLayout(context, attrs, defStyleAttr){
@@ -18,7 +20,13 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
     private val menuWidth: Int
     private val menuOffsetX: Int
     private val menuOffsetY: Int
+    private val menuRadius: Float
+    private val menuElevation: Float
     private val presetIndex: Int
+    @DrawableRes
+    private val headBackground: Int
+    @DrawableRes
+    private val menuBackground: Int
     private val dropDownMenu: PopupWindow
     private val recyclerView: RecyclerView
     private var selectedIndex = -1
@@ -33,11 +41,19 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
         menuWidth = typedArray.getLayoutDimension(R.styleable.SmartSpinnerLayout_menuWidth, -3)
         menuOffsetX = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_menuOffsetX, 0)
         menuOffsetY = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_menuOffsetY, 0)
+        //setBackground
+        headBackground = typedArray.getResourceId(R.styleable.SmartSpinnerLayout_spinnerBackground, R.color.light_gray)
+        setBackgroundResource(headBackground)
+        menuBackground = typedArray.getResourceId(R.styleable.SmartSpinnerLayout_menuBackground, headBackground)
         //setPreset
         presetIndex = typedArray.getInt(R.styleable.SmartSpinnerLayout_presetIndex, -1)
         //setPopupMenu
+        menuRadius = typedArray.getDimension(R.styleable.SmartSpinnerLayout_menuRadius, 0f)
+        menuElevation = typedArray.getDimension(R.styleable.SmartSpinnerLayout_menuElevation, 0f)
         val popupView = View.inflate(context, R.layout.spinner_menu, null)
+        popupView.cv.radius = menuRadius
         recyclerView = popupView.rcv
+        recyclerView.setBackgroundResource(menuBackground)
         recyclerView.layoutManager = LinearLayoutManager(context)
         if (typedArray.getBoolean(R.styleable.SmartSpinnerLayout_showDivider, false)){
             val dividerColor = typedArray.getColor(R.styleable.SmartSpinnerLayout_dividerColor, Color.LTGRAY)
@@ -50,7 +66,9 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
             isOutsideTouchable = true
             isTouchable = true
         }
-
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            dropDownMenu.elevation = menuElevation
+        }
         isClickable = true
         typedArray.recycle()
     }
