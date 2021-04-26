@@ -41,7 +41,7 @@
         <attr name="entries" format="reference"/>
         <attr name="spinnerBackground" />
         <attr name="menuBackground" />
-        <attr name="itemBackground" format="color|reference"/>
+        <attr name="optionBackground" format="color|reference"/>
         <attr name="selectedBackground" format="color|reference"/>
         <attr name="presetIndex"/>
         <attr name="showSelectedColor" format="boolean"/>

@@ -103,7 +103,7 @@ spinner.setOnSpinnerResetListener(() -> {
 | presetIndex        | color | 默认选中item |
 | spinnerBackground        | color/reference | spinner背景色 |
 | menuBackground        | color/reference | 弹出菜单背景色 |
-| itemBackground        | color/reference | 弹出菜单item背景色 |
+| optionBackground        | color/reference | 弹出菜单item背景色 |
 | selectedBackground      | color/reference | 弹出菜单被选中item的背景色 |
 | showSelectedColor       | boolean | 若此项为true，当选中item与预设不同时，spinner文本颜色会随item改变 |
 | entries                   | reference | 数据源，定义在<string-array/>标签下的字符串数组，用法与官方spinner相同 |
@@ -149,7 +149,7 @@ class SmartSpinnerLayoutAdapter(dataList: MutableList<PayType>) : BaseSpinnerLay
             if (position == selectedPosition){
                 item_hook.visibility = View.VISIBLE
                 item_text.setTextColor(ResourcesCompat.getColor(resources, R.color.colorPrimary, null))
-                setBackgroundResource(R.color.colorAccent)
+                setBackgroundResource(R.color.colorAccent) 
             }else {
                 item_hook.visibility = View.GONE
                 item_text.setTextColor(Color.BLACK)
@@ -245,7 +245,7 @@ allprojects {
 然后在app文件夹下的`build.gradle`中引入：
 ```
 dependencies {
-    implementation 'com.gitee.Zerlings:SmartSpinner:0.3.0'
+    implementation 'com.gitee.Zerlings:SmartSpinner:0.3.1'
 }
 ```
 
