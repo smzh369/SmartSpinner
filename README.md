@@ -245,7 +245,7 @@ allprojects {
 然后在app文件夹下的`build.gradle`中引入：
 ```
 dependencies {
-    implementation 'com.gitee.Zerlings:SmartSpinner:0.3.1'
+    implementation 'com.gitee.Zerlings:SmartSpinner:0.3.2'
 }
 ```
 

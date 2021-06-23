@@ -21,7 +21,7 @@
         app:presetIndex="2"
         app:menuWidth="fit_horizon"
         app:arrowPadding="0dp"
-        app:showDivider="true"
+        app:showItemDivider="true"
         app:menuRadius="4dp"
         app:menuElevation="8dp"
         app:menuBackground="@color/white"/>
@@ -37,7 +37,7 @@
         android:layout_width="200dp"
         android:layout_height="50dp"
         app:menuWidth="match_parent"
-        app:showDivider="true"
+        app:showItemDivider="true"
         app:dividerHeight="5dp"
         app:presetIndex="1"
         app:spinnerBackground="@color/colorPrimaryDark">

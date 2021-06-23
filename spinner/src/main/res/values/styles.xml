@@ -12,7 +12,7 @@
     <attr name="menuOffsetX" format="dimension"/>
     <attr name="menuOffsetY" format="dimension"/>
     <attr name="presetIndex" format="integer"/>
-    <attr name="showDivider" format="boolean"/>
+    <attr name="showItemDivider" format="boolean"/>
     <attr name="dividerColor" format="color"/>
     <attr name="dividerPadding" format="dimension"/>
     <attr name="dividerHeight" format="dimension"/>
@@ -45,7 +45,7 @@
         <attr name="selectedBackground" format="color|reference"/>
         <attr name="presetIndex"/>
         <attr name="showSelectedColor" format="boolean"/>
-        <attr name="showDivider"/>
+        <attr name="showItemDivider"/>
         <attr name="dividerColor"/>
         <attr name="dividerPadding"/>
         <attr name="dividerHeight"/>
@@ -60,7 +60,7 @@
         <attr name="spinnerBackground" />
         <attr name="menuBackground" />
         <attr name="presetIndex"/>
-        <attr name="showDivider"/>
+        <attr name="showItemDivider"/>
         <attr name="dividerColor"/>
         <attr name="dividerPadding"/>
         <attr name="dividerHeight"/>

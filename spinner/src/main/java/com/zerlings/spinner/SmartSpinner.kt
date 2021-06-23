@@ -105,7 +105,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         recyclerView = popupView.rcv
         recyclerView.setBackgroundResource(menuBackground)
         recyclerView.layoutManager = LinearLayoutManager(context)
-        if (typedArray.getBoolean(R.styleable.SmartSpinner_showDivider, false)){
+        if (typedArray.getBoolean(R.styleable.SmartSpinner_showItemDivider, false)){
             val dividerColor = typedArray.getColor(R.styleable.SmartSpinner_dividerColor, Color.LTGRAY)
             val dividerPadding = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_dividerPadding, 0)
             val dividerHeight = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_dividerHeight, dip2px(context, 1f))
