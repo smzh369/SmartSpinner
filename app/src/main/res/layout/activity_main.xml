@@ -20,6 +20,7 @@
         app:showSelectedColor="true"
         app:presetIndex="2"
         app:menuWidth="fit_horizon"
+        app:menuHeight="75dp"
         app:arrowPadding="0dp"
         app:showItemDivider="true"
         app:menuRadius="4dp"

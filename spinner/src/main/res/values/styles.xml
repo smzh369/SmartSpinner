@@ -9,6 +9,9 @@
         <enum name="wrap_content" value="-2" />
         <enum name="fit_horizon" value="-3" />
     </attr>
+    <attr name="menuHeight" format="dimension|enum">
+        <enum name="wrap_content" value="-1" />
+    </attr>
     <attr name="menuOffsetX" format="dimension"/>
     <attr name="menuOffsetY" format="dimension"/>
     <attr name="presetIndex" format="integer"/>
@@ -30,6 +33,7 @@
         <attr name="menuPaddingStart" format="dimension"/>
         <attr name="menuPaddingEnd" format="dimension"/>
         <attr name="menuWidth" />
+        <attr name="menuHeight" />
         <attr name="menuOffsetX"/>
         <attr name="menuOffsetY"/>
         <attr name="menuRadius"/>
@@ -53,6 +57,7 @@
 
     <declare-styleable name="SmartSpinnerLayout">
         <attr name="menuWidth" />
+        <attr name="menuHeight" />
         <attr name="menuOffsetX"/>
         <attr name="menuOffsetY"/>
         <attr name="menuRadius"/>

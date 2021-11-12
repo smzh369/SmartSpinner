@@ -18,6 +18,7 @@ import kotlinx.android.synthetic.main.spinner_menu.view.*
 class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ConstraintLayout(context, attrs, defStyleAttr){
 
     private val menuWidth: Int
+    private val menuHeight: Int
     private val menuOffsetX: Int
     private val menuOffsetY: Int
     private val menuRadius: Float
@@ -39,6 +40,7 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SmartSpinnerLayout)
         //setMenuPaddingAndLocation
         menuWidth = typedArray.getLayoutDimension(R.styleable.SmartSpinnerLayout_menuWidth, -3)
+        menuHeight = typedArray.getLayoutDimension(R.styleable.SmartSpinnerLayout_menuHeight, -1)
         menuOffsetX = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_menuOffsetX, 0)
         menuOffsetY = typedArray.getDimensionPixelSize(R.styleable.SmartSpinnerLayout_menuOffsetY, 0)
         //setBackground
@@ -125,6 +127,7 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
 
     private fun resizeDropDownMenu(){
         dropDownMenu.width = if (menuWidth == -3) width else menuWidth
+        if (height*(adapter?.getData()?.size ?: 0) > menuHeight && menuHeight != -1) dropDownMenu.height = menuHeight
     }
 
     fun getItemAtPosition(position: Int): T? {

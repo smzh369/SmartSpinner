@@ -27,6 +27,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
     private val menuPaddingStart: Int
     private val menuPaddingEnd: Int
     private val menuWidth: Int
+    private val menuHeight: Int
     private val menuOffsetX: Int
     private val menuOffsetY: Int
     private val menuRadius: Float
@@ -68,6 +69,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         menuPaddingStart = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_menuPaddingStart, 0)
         menuPaddingEnd = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_menuPaddingEnd, 0)
         menuWidth = typedArray.getLayoutDimension(R.styleable.SmartSpinner_menuWidth, -3)
+        menuHeight = typedArray.getLayoutDimension(R.styleable.SmartSpinner_menuHeight, -1)
         menuOffsetX = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_menuOffsetX, 0)
         menuOffsetY = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_menuOffsetY, 0)
         //setTextStyle
@@ -177,6 +179,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     private fun resizeDropDownMenu(){
         dropDownMenu.width = if (menuWidth == -3) width else menuWidth
+        if (height*(adapter?.getData()?.size ?: 0) > menuHeight && menuHeight != -1) dropDownMenu.height = menuHeight
         (adapter as SmartSpinnerAdapter).apply {
             setItemHeight(height)
         }
