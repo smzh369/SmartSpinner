@@ -219,6 +219,7 @@ spinner.setOnSpinnerResetListener(() -> {
 | name                      | type      | info                                                   |
 |------------------------   |-----------|--------------------------------------------------------|
 | menuWidth        | dimension/enum | 弹出菜单宽度 |
+| menuHeight        | dimension/enum | 弹出菜单高度 |
 | menuOffsetX        | dimension  | 菜单弹出位置横向偏移量 |
 | menuOffsetY        | dimension  | 菜单弹出位置纵向偏移量 |
 | menuRadius        | dimension  | 菜单圆角 |
@@ -245,7 +246,7 @@ allprojects {
 然后在app文件夹下的`build.gradle`中引入：
 ```
 dependencies {
-    implementation 'com.gitee.Zerlings:SmartSpinner:0.3.2'
+    implementation 'com.gitee.Zerlings:SmartSpinner:0.3.3'
 }
 ```
 
