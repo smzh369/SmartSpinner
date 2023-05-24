@@ -13,7 +13,8 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
 import androidx.annotation.DrawableRes
-import kotlinx.android.synthetic.main.spinner_menu.view.*
+import androidx.cardview.widget.CardView
+import com.zerlings.smartspinner.R
 
 class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0) : ConstraintLayout(context, attrs, defStyleAttr){
 
@@ -53,8 +54,8 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
         menuRadius = typedArray.getDimension(R.styleable.SmartSpinnerLayout_menuRadius, 0f)
         menuElevation = typedArray.getDimension(R.styleable.SmartSpinnerLayout_menuElevation, 0f)
         val popupView = View.inflate(context, R.layout.spinner_menu, null)
-        popupView.cv.radius = menuRadius
-        recyclerView = popupView.rcv
+        popupView.findViewById<CardView>(R.id.cv).radius = menuRadius
+        recyclerView = popupView.findViewById(R.id.rcv)
         recyclerView.setBackgroundResource(menuBackground)
         recyclerView.layoutManager = LinearLayoutManager(context)
         if (typedArray.getBoolean(R.styleable.SmartSpinnerLayout_showItemDivider, false)){
@@ -107,7 +108,11 @@ class SmartSpinnerLayout<T: Any> @JvmOverloads constructor(context: Context, att
 
     fun reset(){
         setSelectedIndex(this, presetIndex, false)
-        onSpinnerResetListener?.invoke() ?: if (presetIndex != -1) { onItemSelectedListener?.invoke(this, presetIndex) }
+        if (onSpinnerResetListener != null)  {
+            onSpinnerResetListener!!.invoke()
+        } else if (presetIndex != -1) {
+            onItemSelectedListener?.invoke(this, presetIndex)
+        }
     }
 
     fun setSelectedIndex(view: View, position: Int, selected: Boolean = true){

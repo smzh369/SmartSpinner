@@ -4,7 +4,8 @@ import androidx.annotation.ColorInt
 import androidx.annotation.DrawableRes
 import androidx.annotation.LayoutRes
 import android.util.TypedValue
-import kotlinx.android.synthetic.main.spinner_simple_item.view.*
+import android.widget.TextView
+import com.zerlings.smartspinner.R
 
 class SmartSpinnerAdapter<T:CharSequence>(
     @LayoutRes layoutResId: Int,
@@ -29,6 +30,7 @@ class SmartSpinnerAdapter<T:CharSequence>(
         super.onBindViewHolder(holder, position)
         holder.itemView.apply {
             layoutParams.height = itemHeight
+            val tv_simple = findViewById<TextView>(R.id.tv_simple)
             tv_simple.setPaddingRelative(startPadding,0,endPadding,0)
             tv_simple.gravity = gravity
             tv_simple.setBackgroundResource(itemBackground)

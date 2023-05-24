@@ -1,22 +1,25 @@
 package com.zerlings.smartspinner
 
 import android.os.Bundle
+import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import android.widget.Toast
+import com.zerlings.spinner.SmartSpinner
 import com.zerlings.spinner.SmartSpinnerLayout
-import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        val spinner = findViewById<SmartSpinner>(R.id.spinner)
         spinner.setOnItemSelectedListener { view, index ->
             Toast.makeText(this, spinner.getItemAtPosition(index), Toast.LENGTH_SHORT).show()
         }
         spinner.setOnSpinnerResetListener {
             Toast.makeText(this, spinner.getSelectedItem(), Toast.LENGTH_SHORT).show()
         }
+        val spinner_reset = findViewById<TextView>(R.id.spinner_reset)
         spinner_reset.setOnClickListener {
             spinner.reset()
         }
@@ -31,6 +34,7 @@ class MainActivity : AppCompatActivity() {
         spinnerLayout.setOnSpinnerResetListener {
             Toast.makeText(this, spinnerLayout.getSelectedItem()?.title, Toast.LENGTH_SHORT).show()
         }
+        val spinner_layout_reset = findViewById<TextView>(R.id.spinner_layout_reset)
         spinner_layout_reset.setOnClickListener {
             spinnerLayout.reset()
         }

@@ -20,14 +20,17 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import android.widget.PopupWindow
-import kotlinx.android.synthetic.main.spinner_menu.view.*
+import androidx.cardview.widget.CardView
+import com.zerlings.smartspinner.R
 
 class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = attr.textViewStyle) : AppCompatTextView(context, attrs, defStyleAttr) {
 
+    private val menuTextGravity: Int
     private val menuPaddingStart: Int
     private val menuPaddingEnd: Int
     private val menuWidth: Int
     private val menuHeight: Int
+    private val itemHeight: Int
     private val menuOffsetX: Int
     private val menuOffsetY: Int
     private val menuRadius: Float
@@ -79,12 +82,14 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         selectedTint = typedArray.getColor(R.styleable.SmartSpinner_selectedColor, Color.CYAN)
         setTextColor(textTint)
         gravity = typedArray.getInt(R.styleable.SmartSpinner_textAlignment, Gravity.START) or Gravity.CENTER_VERTICAL
+        menuTextGravity = typedArray.getInt(R.styleable.SmartSpinner_menuTextAlignment, gravity) or Gravity.CENTER_VERTICAL
         //setBackground
         headBackground = typedArray.getResourceId(R.styleable.SmartSpinner_spinnerBackground, R.color.light_gray)
         setBackgroundResource(headBackground)
         menuBackground = typedArray.getResourceId(R.styleable.SmartSpinner_menuBackground, headBackground)
         itemBackground = typedArray.getResourceId(R.styleable.SmartSpinner_optionBackground, R.color.transparent)
         selectedBackground = typedArray.getResourceId(R.styleable.SmartSpinner_selectedBackground, menuBackground)
+        itemHeight = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_optionHeight, 0)
         //setPreset
         presetText = typedArray.getString(R.styleable.SmartSpinner_presetText)
         presetIndex = if (presetText != null) -1 else typedArray.getInt(R.styleable.SmartSpinner_presetIndex, 0)
@@ -103,8 +108,8 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         menuRadius = typedArray.getDimension(R.styleable.SmartSpinner_menuRadius, 0f)
         menuElevation = typedArray.getDimension(R.styleable.SmartSpinner_menuElevation, 0f)
         val popupView = View.inflate(context, R.layout.spinner_menu, null)
-        popupView.cv.radius = menuRadius
-        recyclerView = popupView.rcv
+        popupView.findViewById<CardView>(R.id.cv).radius = menuRadius
+        recyclerView = popupView.findViewById(R.id.rcv)
         recyclerView.setBackgroundResource(menuBackground)
         recyclerView.layoutManager = LinearLayoutManager(context)
         if (typedArray.getBoolean(R.styleable.SmartSpinner_showItemDivider, false)){
@@ -113,7 +118,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dividerHeight = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_dividerHeight, dip2px(context, 1f))
             recyclerView.addItemDecoration(BaseSpinnerDivider(context, dividerColor, dividerPadding, dividerHeight))
         }
-        setAdapter(SmartSpinnerAdapter(R.layout.spinner_simple_item, entries.toMutableList(), menuPaddingStart, menuPaddingEnd,  textTint, selectedTint, itemBackground, selectedBackground, textSize, gravity))
+        setAdapter(SmartSpinnerAdapter(R.layout.spinner_simple_item, entries.toMutableList(), menuPaddingStart, menuPaddingEnd,  textTint, selectedTint, itemBackground, selectedBackground, textSize, menuTextGravity))
         dropDownMenu = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
             isFocusable = true
             isOutsideTouchable = true
@@ -158,7 +163,11 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
 
     fun reset(){
         setSelectedIndex(this, presetIndex, false)
-        onSpinnerResetListener?.invoke() ?: if (presetIndex != -1) { onItemSelectedListener?.invoke(this, presetIndex) }
+        if (onSpinnerResetListener != null)  {
+            onSpinnerResetListener!!.invoke()
+        } else if (presetIndex != -1) {
+            onItemSelectedListener?.invoke(this, presetIndex)
+        }
     }
 
     fun setSelectedIndex(view: View, position: Int, selected: Boolean = true){
@@ -181,7 +190,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         dropDownMenu.width = if (menuWidth == -3) width else menuWidth
         if (height*(adapter?.getData()?.size ?: 0) > menuHeight && menuHeight != -1) dropDownMenu.height = menuHeight
         (adapter as SmartSpinnerAdapter).apply {
-            setItemHeight(height)
+            setItemHeight(if (itemHeight != 0) itemHeight else height)
         }
     }
 

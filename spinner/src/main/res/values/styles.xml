@@ -3,6 +3,12 @@
     <attr name="textAlignment" format="flags">
         <flag name="start" value="0x00800003" />
         <flag name="center" value="0x11" />
+        <flag name="end" value="0x00800005" />
+    </attr>
+    <attr name="menuTextAlignment" format="flags">
+        <flag name="start" value="0x00800003" />
+        <flag name="center" value="0x11" />
+        <flag name="end" value="0x00800005" />
     </attr>
     <attr name="menuWidth" format="dimension|enum">
         <enum name="match_parent" value="-1" />
@@ -30,6 +36,7 @@
         <attr name="arrowDrawable" format="reference|color" />
         <attr name="arrowPadding" format="dimension" />
         <attr name="textAlignment" />
+        <attr name="menuTextAlignment" />
         <attr name="menuPaddingStart" format="dimension"/>
         <attr name="menuPaddingEnd" format="dimension"/>
         <attr name="menuWidth" />
@@ -53,6 +60,7 @@
         <attr name="dividerColor"/>
         <attr name="dividerPadding"/>
         <attr name="dividerHeight"/>
+        <attr name="optionHeight" format="dimension"/>
     </declare-styleable>
 
     <declare-styleable name="SmartSpinnerLayout">
