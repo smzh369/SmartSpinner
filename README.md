@@ -81,39 +81,40 @@ spinner.setOnSpinnerResetListener(() -> {
 #### Attributes
 基础版有丰富的自定义属性:
 
-| name                      | type      | info                                                   |
-|------------------------   |-----------|--------------------------------------------------------|
-| arrowTint                 | color     | 小箭头颜色                  |
-| hideArrow                 | boolean   | 是否显示小箭头           |
-| arrowDrawable             | reference | 小箭头资源文件                |
-| arrowPadding             | dimension | 小箭头与文本间距                |
-| textAlignment             | enum | 文本对齐方式                               |
-| menuTextAlignment             | enum | 弹出菜单文本对齐方式                               |
-| menuPaddingStart               | dimension | 弹出菜单左内边距          |
-| menuPaddingStart               | dimension | 弹出菜单右内边距          |
-| menuWidth        | dimension/enum | 弹出菜单宽度 |
-| menuHeight        | dimension/enum | 弹出菜单高度 |
-| optionHeight        | dimension/enum | 弹出菜单item高度 |
-| menuOffsetX        | dimension  | 菜单弹出位置横向偏移量 |
-| menuOffsetY        | dimension  | 菜单弹出位置纵向偏移量 |
-| menuRadius        | dimension  | 菜单圆角 |
-| menuElevation        | dimension  | 菜单阴影高度 |
-| textColor        | color | 文字颜色 |
-| selectedColor        | color | 选中item文字颜色 |
-| textSize        | color | 文字大小 |
-| presetIndex        | integer | 默认选中item |
-| presetText        | string/reference | 默认文本，设置该项后presetIndex固定为-1，即初始化后不选中任何一栏 |
-| presetIndex        | color | 默认选中item |
-| spinnerBackground        | color/reference | spinner背景色 |
-| menuBackground        | color/reference | 弹出菜单背景色 |
-| optionBackground        | color/reference | 弹出菜单item背景色 |
-| selectedBackground      | color/reference | 弹出菜单被选中item的背景色 |
-| showSelectedColor       | boolean | 若此项为true，当选中item与预设不同时，spinner文本颜色会随item改变 |
-| entries                   | reference | 数据源，定义在<string-array/>标签下的字符串数组，用法与官方spinner相同 |
-| showDivider      | boolean | 下拉菜单显示分隔线 |
-| dividerColor       | color | 分隔线颜色 |
-| dividerPadding          | dimension | 分隔线左右边距 |
-| dividerHeight          | dimension | 分隔线厚度 |
+| name               | type      | info                                           |
+|--------------------|-----------|------------------------------------------------|
+| arrowTint          | color     | 小箭头颜色                                          |
+| hideArrow          | boolean   | 是否显示小箭头                                        |
+| arrowDrawable      | reference | 小箭头资源文件                                        |
+| arrowPadding       | dimension | 小箭头与文本间距                                       |
+| textAlignment      | enum | 文本对齐方式                                         |
+| menuTextAlignment  | enum | 弹出菜单文本对齐方式                                     |
+| menuPaddingStart   | dimension | 弹出菜单左内边距                                       |
+| menuPaddingStart   | dimension | 弹出菜单右内边距                                       |
+| menuWidth          | dimension/enum | 弹出菜单宽度                                         |
+| menuHeight         | dimension/enum | 弹出菜单高度                                         |
+| optionHeight       | dimension/enum | 弹出菜单item高度                                     |
+| menuOffsetX        | dimension  | 菜单弹出位置横向偏移量                                    |
+| menuOffsetY        | dimension  | 菜单弹出位置纵向偏移量                                    |
+| menuRadius         | dimension  | 菜单圆角                                           |
+| menuElevation      | dimension  | 菜单阴影高度                                         |
+| textColor          | color | 文字颜色                                           |
+| menuTextColor      | color | 弹出菜单文字颜色                                       |
+| selectedColor      | color | 选中item文字颜色                                     |
+| textSize           | color | 文字大小                                           |
+| presetIndex        | integer | 默认选中item                                       |
+| presetText         | string/reference | 默认文本，设置该项后presetIndex固定为-1，即初始化后不选中任何一栏        |
+| presetIndex        | color | 默认选中item                                       |
+| spinnerBackground  | color/reference | spinner背景色                                     |
+| menuBackground     | color/reference | 弹出菜单背景色                                        |
+| optionBackground   | color/reference | 弹出菜单item背景色                                    |
+| selectedBackground | color/reference | 弹出菜单被选中item的背景色                                |
+| showSelectedColor  | boolean | 若此项为true，当选中item与预设不同时，spinner文本颜色会随item改变     |
+| entries            | reference | 数据源，定义在<string-array/>标签下的字符串数组，用法与官方spinner相同 |
+| showDivider        | boolean | 下拉菜单显示分隔线                                      |
+| dividerColor       | color | 分隔线颜色                                          |
+| dividerPadding     | dimension | 分隔线左右边距                                        |
+| dividerHeight      | dimension | 分隔线厚度                                          |
 
 ### 2.SmartSpinnerLayout
 进阶版首先仍是在xml中定义：

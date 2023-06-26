@@ -47,6 +47,7 @@
         <attr name="menuElevation"/>
         <attr name="selectedColor" format="color" />
         <attr name="textColor" format="color"/>
+        <attr name="menuTextColor" format="color"/>
         <attr name="textSize" format="dimension"/>
         <attr name="presetText" format="string|reference"/>
         <attr name="entries" format="reference"/>

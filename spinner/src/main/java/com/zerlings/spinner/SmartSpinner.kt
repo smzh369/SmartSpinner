@@ -44,6 +44,8 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
     @ColorInt
     private val textTint: Int
     @ColorInt
+    private val menuTextTint: Int
+    @ColorInt
     private val selectedTint: Int
     @DrawableRes
     private val headBackground: Int
@@ -79,6 +81,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         spinnerTextSize = typedArray.getDimension(R.styleable.SmartSpinner_textSize, resources.getDimension(R.dimen.default_text_size))
         setTextSize(TypedValue.COMPLEX_UNIT_PX, spinnerTextSize)
         textTint = typedArray.getColor(R.styleable.SmartSpinner_textColor, Color.BLACK)
+        menuTextTint = typedArray.getColor(R.styleable.SmartSpinner_menuTextColor, textTint)
         selectedTint = typedArray.getColor(R.styleable.SmartSpinner_selectedColor, Color.CYAN)
         setTextColor(textTint)
         gravity = typedArray.getInt(R.styleable.SmartSpinner_textAlignment, Gravity.START) or Gravity.CENTER_VERTICAL
@@ -118,7 +121,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
             val dividerHeight = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_dividerHeight, dip2px(context, 1f))
             recyclerView.addItemDecoration(BaseSpinnerDivider(context, dividerColor, dividerPadding, dividerHeight))
         }
-        setAdapter(SmartSpinnerAdapter(R.layout.spinner_simple_item, entries.toMutableList(), menuPaddingStart, menuPaddingEnd,  textTint, selectedTint, itemBackground, selectedBackground, textSize, menuTextGravity))
+        setAdapter(SmartSpinnerAdapter(R.layout.spinner_simple_item, entries.toMutableList(), menuPaddingStart, menuPaddingEnd,  menuTextTint, selectedTint, itemBackground, selectedBackground, textSize, menuTextGravity))
         dropDownMenu = PopupWindow(popupView, ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply {
             isFocusable = true
             isOutsideTouchable = true
