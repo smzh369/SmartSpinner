@@ -146,7 +146,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
 //                dropDownMenu.showAsDropDown(this, menuOffsetX, menuOffsetY)
                 val location = IntArray(2)
                 getLocationInWindow(location)
-                dropDownMenu.showAtLocation(this, Gravity.NO_GRAVITY,location[0] + menuOffsetX,location[1] + height + menuOffsetY)
+                dropDownMenu.showAtLocation(rootView, Gravity.NO_GRAVITY,location[0] + menuOffsetX,location[1] + height + menuOffsetY)
             } else {
                 dropDownMenu.dismiss()
             }
