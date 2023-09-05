@@ -2,6 +2,7 @@ package com.zerlings.spinner
 
 import android.R.attr
 import android.annotation.SuppressLint
+import android.app.Activity
 import android.content.Context
 import android.graphics.Color
 import android.graphics.drawable.Drawable
@@ -67,6 +68,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
     private var onItemSelectedListener: ((View, Int) -> Unit)? = null
     private var onSpinnerResetListener: (() -> Unit)? = null
     private var initialized = false
+    private var activityView: View? = null
 
     init {
         val typedArray = context.obtainStyledAttributes(attrs, R.styleable.SmartSpinner)
@@ -143,15 +145,22 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
             if (!dropDownMenu.isShowing && adapter!!.itemCount > 0) {
                 adapter!!.notifyDataSetChanged()
-//                dropDownMenu.showAsDropDown(this, menuOffsetX, menuOffsetY)
-                val location = IntArray(2)
-                getLocationInWindow(location)
-                dropDownMenu.showAtLocation(rootView, Gravity.NO_GRAVITY,location[0] + menuOffsetX,location[1] + height + menuOffsetY)
+                if (activityView == null) {
+                    dropDownMenu.showAsDropDown(this, menuOffsetX, menuOffsetY)
+                } else {
+                    val location = IntArray(2)
+                    getLocationInWindow(location)
+                    dropDownMenu.showAtLocation(activityView, Gravity.NO_GRAVITY,location[0] + menuOffsetX,location[1] + height + menuOffsetY)
+                }
             } else {
                 dropDownMenu.dismiss()
             }
         }
         return super.onTouchEvent(event)
+    }
+
+    fun setActivityView(view: View) {
+        activityView = view
     }
 
     private fun setAdapter(baseAdapter: SmartSpinnerAdapter<CharSequence>){
