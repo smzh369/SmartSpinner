@@ -18,7 +18,7 @@ afterEvaluate {
                 // You can then customize attributes of the publication as shown below.
                 groupId = 'com.zerlings.smartspinner'
                 artifactId = 'smartspinner'
-                version = '0.3.6'
+                version = '0.3.7'
             }
             // Creates a Maven publication called “debug”.
 //            debug(MavenPublication) {
