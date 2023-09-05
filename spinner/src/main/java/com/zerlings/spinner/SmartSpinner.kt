@@ -93,7 +93,7 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
         setBackgroundResource(headBackground)
         menuBackground = typedArray.getResourceId(R.styleable.SmartSpinner_menuBackground, headBackground)
         itemBackground = typedArray.getResourceId(R.styleable.SmartSpinner_optionBackground, R.color.transparent)
-        selectedBackground = typedArray.getResourceId(R.styleable.SmartSpinner_selectedBackground, menuBackground)
+        selectedBackground = typedArray.getResourceId(R.styleable.SmartSpinner_selectedBackground, R.color.transparent)
         itemHeight = typedArray.getDimensionPixelSize(R.styleable.SmartSpinner_optionHeight, 0)
         //setPreset
         presetText = typedArray.getString(R.styleable.SmartSpinner_presetText)
