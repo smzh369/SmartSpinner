@@ -143,7 +143,10 @@ class SmartSpinner @JvmOverloads constructor(context: Context, attrs: AttributeS
             }
             if (!dropDownMenu.isShowing && adapter!!.itemCount > 0) {
                 adapter!!.notifyDataSetChanged()
-                dropDownMenu.showAsDropDown(this, menuOffsetX, menuOffsetY)
+//                dropDownMenu.showAsDropDown(this, menuOffsetX, menuOffsetY)
+                val location = IntArray(2)
+                getLocationInWindow(location)
+                dropDownMenu.showAtLocation(this, Gravity.NO_GRAVITY,location[0] + menuOffsetX,location[1] + height + menuOffsetY)
             } else {
                 dropDownMenu.dismiss()
             }
